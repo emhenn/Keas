@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Keas.Core.Data;
 using Keas.Core.Domain;
+using Keas.Mvc.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,14 @@ namespace Keas.Mvc.Controllers
     public class KeysController : SuperController
     {
         private readonly ApplicationDbContext _context;
+        private readonly EventService _eventService;
+        private readonly SecurityService _securityService;
 
-        public KeysController(ApplicationDbContext context)
+        public KeysController(ApplicationDbContext context, EventService eventService, SecurityService securityService)
         {
             this._context = context;
+            _eventService = eventService;
+            _securityService = securityService;
         }
 
         public string GetTeam()
@@ -51,10 +56,12 @@ namespace Keas.Mvc.Controllers
         public async Task<IActionResult> Create([FromBody]Key key)
         {
             // TODO Make sure user has permissions
+            var user = await _securityService.GetUser();
             if (ModelState.IsValid)
             {
                 _context.Keys.Add(key);
                 await _context.SaveChangesAsync();
+                await _eventService.TrackCreateKey(key, user);
             }
             return Json(key);
         }
