@@ -11,7 +11,16 @@ namespace Keas.Mvc.Services
 {
     public interface IHistoryService
     {
-        
+        void KeyCreated(Key key, User user);
+        void AccessCreated(Access access, User user);
+        void EquipmentCreated(Equipment equipment, User user);
+        void KeyUpdated(Key key, User user);
+        void AccessUpdated(Access access, User user);
+        void EquipmentUpdated(Equipment equipment, User user);
+        void KeyInactivated(Key key, User user);
+        void AccessInactivated(Access access, User user);
+        void EquipmentInactivated(Equipment equipment, User user);
+
     }
 
     public class HistoryService : IHistoryService
