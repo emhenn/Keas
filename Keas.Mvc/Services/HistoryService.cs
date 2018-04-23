@@ -111,6 +111,50 @@ namespace Keas.Mvc.Services
             _context.Histories.Add(historyEntry);
             await _context.SaveChangesAsync();
         }
+        public async void KeyInactivated(Key key, User user)
+        {
+            var historyEntry = new History
+            {
+                Description = "Key Inactivated",
+                Actor = user,
+                ActorName = user.Name,
+                AssetType = "Key",
+                ActionType = "Inactivated",
+                Key = key
+            };
+            _context.Histories.Add(historyEntry);
+            await _context.SaveChangesAsync();
+        }
+
+        public async void AccessInactivated(Access access, User user)
+        {
+            var historyEntry = new History
+            {
+                Description = "Access Inactivated",
+                Actor = user,
+                ActorName = user.Name,
+                AssetType = "Access",
+                ActionType = "Inactivated",
+                Access = access
+            };
+            _context.Histories.Add(historyEntry);
+            await _context.SaveChangesAsync();
+        }
+
+        public async void EquipmentInactivated(Equipment equipment, User user)
+        {
+            var historyEntry = new History
+            {
+                Description = "Access Inactivated",
+                Actor = user,
+                ActorName = user.Name,
+                AssetType = "Access",
+                ActionType = "Inactivated",
+                Equipment = equipment
+            };
+            _context.Histories.Add(historyEntry);
+            await _context.SaveChangesAsync();
+        }
 
 
 
