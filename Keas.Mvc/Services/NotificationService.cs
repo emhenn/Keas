@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Keas.Mvc.Services
 {
-    public interface INotificationSercive
+    public interface INotificationService
     {
         Task KeyCreated(Key key, History history);
 
     }
-    public class NotificaitonService : INotificationSercive
+    public class NotificationService : INotificationService
     {
         private readonly ApplicationDbContext _dbContext;
-        private readonly SecurityService _securityService;
+        private readonly ISecurityService _securityService;
 
-        public NotificaitonService(ApplicationDbContext dbContext, SecurityService securityService)
+        public NotificationService(ApplicationDbContext dbContext, ISecurityService securityService)
         {
             _dbContext = dbContext;
             _securityService = securityService;
