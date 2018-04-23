@@ -15,10 +15,10 @@ namespace Keas.Mvc.Controllers
     public class KeysController : SuperController
     {
         private readonly ApplicationDbContext _context;
-        private readonly EventService _eventService;
-        private readonly SecurityService _securityService;
+        private readonly IEventService _eventService;
+        private readonly ISecurityService _securityService;
 
-        public KeysController(ApplicationDbContext context, EventService eventService, SecurityService securityService)
+        public KeysController(ApplicationDbContext context, IEventService eventService, ISecurityService securityService)
         {
             this._context = context;
             _eventService = eventService;
@@ -53,6 +53,7 @@ namespace Keas.Mvc.Controllers
 
             return Json(keys);
         }
+
         public async Task<IActionResult> Create([FromBody]Key key)
         {
             // TODO Make sure user has permissions
