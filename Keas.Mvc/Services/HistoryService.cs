@@ -67,6 +67,51 @@ namespace Keas.Mvc.Services
             await _context.SaveChangesAsync();
         }
 
+        public async void KeyUpdated(Key key, User user)
+        {
+            var historyEntry = new History
+            {
+                Description = "Key Updated",
+                Actor = user,
+                ActorName = user.Name,
+                AssetType = "Key",
+                ActionType = "Updated",
+                Key = key
+            };
+            _context.Histories.Add(historyEntry);
+            await _context.SaveChangesAsync();
+        }
+
+        public async void AccessUpdated(Access access, User user)
+        {
+            var historyEntry = new History
+            {
+                Description = "Access Updated",
+                Actor = user,
+                ActorName = user.Name,
+                AssetType = "Access",
+                ActionType = "Updated",
+                Access = access
+            };
+            _context.Histories.Add(historyEntry);
+            await _context.SaveChangesAsync();
+        }
+
+        public async void EquipmentUpdated(Equipment equipment, User user)
+        {
+            var historyEntry = new History
+            {
+                Description = "Access Updated",
+                Actor = user,
+                ActorName = user.Name,
+                AssetType = "Access",
+                ActionType = "Updated",
+                Equipment = equipment
+            };
+            _context.Histories.Add(historyEntry);
+            await _context.SaveChangesAsync();
+        }
+
 
 
 
