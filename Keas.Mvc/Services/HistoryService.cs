@@ -35,9 +35,42 @@ namespace Keas.Mvc.Services
             };
             _context.Histories.Add(historyEntry);
             await _context.SaveChangesAsync();
-
         }
-        
-      
+
+        public async void AccessCreated(Access access, User user)
+        {
+            var historyEntry = new History
+            {
+                Description = "Access Created",
+                Actor = user,
+                ActorName = user.Name,
+                AssetType = "Access",
+                ActionType = "Created",
+                Access = access
+            };
+            _context.Histories.Add(historyEntry);
+            await _context.SaveChangesAsync();
+        }
+
+        public async void EquipmentCreated(Equipment equipment, User user)
+        {
+            var historyEntry = new History
+            {
+                Description = "Access Created",
+                Actor = user,
+                ActorName = user.Name,
+                AssetType = "Access",
+                ActionType = "Created",
+                Equipment = equipment
+            };
+            _context.Histories.Add(historyEntry);
+            await _context.SaveChangesAsync();
+        }
+
+
+
+
+
+
     }
 }
