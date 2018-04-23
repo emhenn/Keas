@@ -7,6 +7,7 @@ using Keas.Core.Domain;
 using Keas.Mvc.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Keas.Mvc.Controllers
 {
@@ -63,6 +64,8 @@ namespace Keas.Mvc.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateKey(Key key)
         {
+            var team = await _context.Teams.SingleAsync(t => t.Name == Team);
+            key.Team = team;
             // TODO Make sure user has permissions
             var user = await _securityService.GetUser();
             if (ModelState.IsValid)

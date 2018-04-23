@@ -10,48 +10,28 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="CreateKey">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="SerialNumber" class="control-label"></label>
                 <input asp-for="SerialNumber" class="form-control" />
                 <span asp-validation-for="SerialNumber" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="LockId" class="control-label"></label>
                 <input asp-for="LockId" class="form-control" />
                 <span asp-validation-for="LockId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="KeyAssignmentId" class="control-label"></label>
-                <select asp-for="KeyAssignmentId" class ="form-control" asp-items="ViewBag.KeyAssignmentId"></select>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="Group" class="control-label"></label>
                 <input asp-for="Group" class="form-control" />
                 <span asp-validation-for="Group" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Tags" class="control-label"></label>
-                <input asp-for="Tags" class="form-control" />
-                <span asp-validation-for="Tags" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TeamId" class="control-label"></label>
-                <select asp-for="TeamId" class ="form-control" asp-items="ViewBag.TeamId"></select>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
-                    </label>
-                </div>
-            </div>
+            </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
