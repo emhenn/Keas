@@ -14,11 +14,13 @@ namespace Keas.Mvc.Controllers
     {
         private readonly ISecurityService _securityService;
         private readonly ApplicationDbContext _context;
+        private readonly IEventService _eventService;
 
-        public TestSecurityController(ISecurityService securityService, ApplicationDbContext context)
+        public TestSecurityController(ISecurityService securityService, ApplicationDbContext context, IEventService eventService)
         {
             _securityService = securityService;
             _context = context;
+            _eventService = eventService;
         }
         public IActionResult Index()
         {
@@ -51,6 +53,25 @@ namespace Keas.Mvc.Controllers
         public IActionResult DeptAdmin()
         {
             return View("Index");
+        }
+
+        public async Task<IActionResult> CreateKey()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateKey(Key key)
+        {
+            // TODO Make sure user has permissions
+            var user = await _securityService.GetUser();
+            if (ModelState.IsValid)
+            {
+                _context.Keys.Add(key);
+                await _context.SaveChangesAsync();
+                await _eventService.TrackCreateKey(key, user);
+            }
+            return Json(key);
         }
     }
 }
