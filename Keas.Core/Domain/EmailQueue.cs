@@ -5,13 +5,14 @@ using Keas.Core.Helpers;
 
 namespace Keas.Core.Domain
 {
-    class EmailQueue
+    public class EmailQueue
     {
         public int Id { get; set; }
 
         public User User { get; set; }
         public History History { get; set; }
         public int HistoryId { get; set; }
+        public string Details { get; set; }
 
         public bool Pending { get; set; }
         public DateTime? DateTimeSent { get; set; }
