@@ -11,15 +11,15 @@ namespace Keas.Mvc.Services
 {
     public interface IHistoryService
     {
-        void KeyCreated(Key key, User user);
-        void AccessCreated(Access access, User user);
-        void EquipmentCreated(Equipment equipment, User user);
-        void KeyUpdated(Key key, User user);
-        void AccessUpdated(Access access, User user);
-        void EquipmentUpdated(Equipment equipment, User user);
-        void KeyInactivated(Key key, User user);
-        void AccessInactivated(Access access, User user);
-        void EquipmentInactivated(Equipment equipment, User user);
+        Task<History> KeyCreated(Key key, User user);
+        Task<History> AccessCreated(Access access, User user);
+        Task<History> EquipmentCreated(Equipment equipment, User user);
+        Task<History> KeyUpdated(Key key, User user);
+        Task<History> AccessUpdated(Access access, User user);
+        Task<History> EquipmentUpdated(Equipment equipment, User user);
+        Task<History> KeyInactivated(Key key, User user);
+        Task<History> AccessInactivated(Access access, User user);
+        Task<History> EquipmentInactivated(Equipment equipment, User user);
 
     }
 
@@ -31,7 +31,7 @@ namespace Keas.Mvc.Services
             _context = context;
         }
 
-        public async void KeyCreated(Key key, User user)
+        public async Task<History> KeyCreated(Key key, User user)
         {
             var historyEntry = new History
             {
@@ -44,9 +44,10 @@ namespace Keas.Mvc.Services
             };
             _context.Histories.Add(historyEntry);
             await _context.SaveChangesAsync();
+            return historyEntry;
         }
 
-        public async void AccessCreated(Access access, User user)
+        public async Task<History> AccessCreated(Access access, User user)
         {
             var historyEntry = new History
             {
@@ -59,9 +60,10 @@ namespace Keas.Mvc.Services
             };
             _context.Histories.Add(historyEntry);
             await _context.SaveChangesAsync();
+            return historyEntry;
         }
 
-        public async void EquipmentCreated(Equipment equipment, User user)
+        public async Task<History> EquipmentCreated(Equipment equipment, User user)
         {
             var historyEntry = new History
             {
@@ -74,9 +76,10 @@ namespace Keas.Mvc.Services
             };
             _context.Histories.Add(historyEntry);
             await _context.SaveChangesAsync();
+            return historyEntry;
         }
 
-        public async void KeyUpdated(Key key, User user)
+        public async Task<History> KeyUpdated(Key key, User user)
         {
             var historyEntry = new History
             {
@@ -89,9 +92,10 @@ namespace Keas.Mvc.Services
             };
             _context.Histories.Add(historyEntry);
             await _context.SaveChangesAsync();
+            return historyEntry;
         }
 
-        public async void AccessUpdated(Access access, User user)
+        public async Task<History> AccessUpdated(Access access, User user)
         {
             var historyEntry = new History
             {
@@ -104,9 +108,10 @@ namespace Keas.Mvc.Services
             };
             _context.Histories.Add(historyEntry);
             await _context.SaveChangesAsync();
+            return historyEntry;
         }
 
-        public async void EquipmentUpdated(Equipment equipment, User user)
+        public async Task<History> EquipmentUpdated(Equipment equipment, User user)
         {
             var historyEntry = new History
             {
@@ -119,8 +124,9 @@ namespace Keas.Mvc.Services
             };
             _context.Histories.Add(historyEntry);
             await _context.SaveChangesAsync();
+            return historyEntry;
         }
-        public async void KeyInactivated(Key key, User user)
+        public async Task<History> KeyInactivated(Key key, User user)
         {
             var historyEntry = new History
             {
@@ -133,9 +139,10 @@ namespace Keas.Mvc.Services
             };
             _context.Histories.Add(historyEntry);
             await _context.SaveChangesAsync();
+            return historyEntry;
         }
 
-        public async void AccessInactivated(Access access, User user)
+        public async Task<History> AccessInactivated(Access access, User user)
         {
             var historyEntry = new History
             {
@@ -148,9 +155,10 @@ namespace Keas.Mvc.Services
             };
             _context.Histories.Add(historyEntry);
             await _context.SaveChangesAsync();
+            return historyEntry;
         }
 
-        public async void EquipmentInactivated(Equipment equipment, User user)
+        public async Task<History> EquipmentInactivated(Equipment equipment, User user)
         {
             var historyEntry = new History
             {
@@ -163,6 +171,7 @@ namespace Keas.Mvc.Services
             };
             _context.Histories.Add(historyEntry);
             await _context.SaveChangesAsync();
+            return historyEntry;
         }
 
     }
