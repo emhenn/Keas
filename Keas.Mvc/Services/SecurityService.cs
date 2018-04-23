@@ -22,6 +22,8 @@ namespace Keas.Mvc.Services
         Task<bool> IsInRoles(List<Role> roles, string teamName);
 
         Task<bool> IsInRoles(List<Role> roles, string teamName, User user);
+
+        Task<List<User>> GetUsersInRoles(List<Role> roles, int teamId);
     }
     public class SecurityService : ISecurityService
     {
@@ -108,8 +110,31 @@ namespace Keas.Mvc.Services
             var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Email == userId);
             return user;
         }
-        
 
+        public async Task<List<User>> GetUsersInRoles(List<Role> roles, int teamId)
+        {
+            List<User> users = new List<User>();
+            using (_dbContext)
+            {
+                var team = await _dbContext.Teams.SingleAsync(t => t.Id == teamId);
+
+                _dbContext.Entry(team)
+                    .Collection(t => t.TeamPermissions)
+                    .Query()
+                    .Where(tp => roles.Contains(tp.Role))
+                    .Include(tp => tp.User)
+                    .Load();
+
+                foreach (var tp in team.TeamPermissions)
+                {
+                   users.Add(tp.User);
+                }
+            }
+            return users;
+        }
+
+
+        // TODO: This is now defunct?
         public async Task<bool> HasKeyMasterAccess(string teamName)
         {
             var team = await _dbContext.Teams.SingleOrDefaultAsync(x => x.Name == teamName);
