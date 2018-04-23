@@ -13,19 +13,19 @@ namespace Keas.Mvc.Services
     }
     public class EventService : IEventService
     {
-        private readonly HistoryService _historyService;
-        private readonly NotificaitonService _notificaitonService;
+        private readonly IHistoryService _historyService;
+        private readonly INotificationService _notificationService;
 
-        public EventService(HistoryService historyService, NotificaitonService notificaitonService)
+        public EventService(IHistoryService historyService, INotificationService notificationService)
         {
             _historyService = historyService;
-            _notificaitonService = notificaitonService;
+            _notificationService = notificationService;
         }
 
         public async Task TrackCreateKey(Key key, User user)
         {
             var history = await _historyService.KeyCreated(key, user);
-            await _notificaitonService.KeyCreated(key, history);
+            await _notificationService.KeyCreated(key, history);
         }
     }
 }
