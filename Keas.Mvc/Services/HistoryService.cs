@@ -22,30 +22,22 @@ namespace Keas.Mvc.Services
             _context = context;
         }
 
-        public async void KeyCreated(Key key)
+        public async void KeyCreated(Key key, User user)
         {
-            var user = GetUser().Result;
             var historyEntry = new History
             {
                 Description = "Key Created",
                 Actor = user,
                 ActorName = user.Name,
-                KeasType = "Key",
+                AssetType = "Key",
                 ActionType = "Created",
                 Key = key
             };
             _context.Histories.Add(historyEntry);
             await _context.SaveChangesAsync();
 
-            // TODO call notification service for this action
-
         }
         
-        public async Task<User> GetUser()
-        {
-            var userId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == userId);
-            return user;
-        }
+      
     }
 }
