@@ -55,42 +55,5 @@ namespace Keas.Mvc.Controllers
         {
             return View("Index");
         }
-
-        public async Task<IActionResult> CreateKey()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateKey(Key key)
-        {
-            var team = await _context.Teams.SingleAsync(t => t.Name == Team);
-            key.Team = team;
-            // TODO Make sure user has permissions
-            var user = await _securityService.GetUser();
-            if (ModelState.IsValid)
-            {
-                _context.Keys.Add(key);
-                await _context.SaveChangesAsync();
-                await _eventService.TrackCreateKey(key, user);
-            }
-            return Json(key);
-        }
-
-        public async Task<IActionResult> Assign(int keyId, int personId, string date)
-        {
-            // TODO Make sure user has permssion, make sure equipment exists, makes sure equipment is in this team
-            if (ModelState.IsValid)
-            {
-                var key = await _context.Keys.SingleAsync(x => x.Id == keyId);
-                key.Assignment = new KeyAssignment { PersonId = personId, ExpiresAt = DateTime.Parse(date) };
-
-                _context.KeyAssignments.Add(key.Assignment);
-
-                await _context.SaveChangesAsync();
-                return Json(key);
-            }
-            return BadRequest(ModelState);
-        }
     }
 }
