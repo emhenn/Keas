@@ -79,6 +79,26 @@ namespace Keas.Mvc.Services
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task KeyAssigned(Key key, History history)
+        {
+            var roles = _dbContext.Roles
+                .Where(r => r.Name == Role.Codes.DepartmentalAdmin || r.Name == Role.Codes.KeyMaster).ToList();
+            var users = await _securityService.GetUsersInRoles(roles, key.TeamId);
+            var assignedTo = await _dbContext.Users.SingleAsync(u => u == key.Assignment.Person.User);
+            users.Add(assignedTo);
+            foreach (var user in users)
+            {
+                var emailQueue = new EmailQueue
+                {
+                    User = user,
+                    History = history,
+                    Details = string.Format("{0} By {1}.", history.Description, history.ActorName)
+                };
+                _dbContext.EmailQueues.Add(emailQueue);
+            }
+            await _dbContext.SaveChangesAsync();
+        }
+
 
     }
 }
