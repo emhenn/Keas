@@ -20,6 +20,15 @@ namespace Keas.Mvc.Services
         Task<History> KeyInactivated(Key key, User user);
         Task<History> AccessInactivated(Access access, User user);
         Task<History> EquipmentInactivated(Equipment equipment, User user);
+        Task<History> KeyAssigned(Key key, User user);
+        Task<History> AccessAssigned(Access access, User user);
+        Task<History> EquipmentAssigned(Equipment equipment, User user);
+        Task<History> KeyUnassigned(Key key, User user);
+        Task<History> AccessUnassigned(Access access, User user);
+        Task<History> EquipmentUnassigned(Equipment equipment, User user);
+        Task<History> KeyAccepted(Key key, User user);
+        Task<History> AccessAccepted(Access access, User user);
+        Task<History> EquipmentAccepted(Equipment equipment, User user);
 
     }
 
