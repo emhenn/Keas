@@ -76,10 +76,10 @@ namespace Keas.Mvc.Services
         {
             var historyEntry = new History
             {
-                Description = "Access Created",
+                Description = "Equipment Created",
                 Actor = user,
                 ActorName = user.Name,
-                AssetType = "Access",
+                AssetType = "Equipment",
                 ActionType = "Created",
                 Equipment = equipment
             };
@@ -124,10 +124,10 @@ namespace Keas.Mvc.Services
         {
             var historyEntry = new History
             {
-                Description = "Access Updated",
+                Description = "Equipment Updated",
                 Actor = user,
                 ActorName = user.Name,
-                AssetType = "Access",
+                AssetType = "Equipment",
                 ActionType = "Updated",
                 Equipment = equipment
             };
@@ -171,10 +171,10 @@ namespace Keas.Mvc.Services
         {
             var historyEntry = new History
             {
-                Description = "Access Inactivated",
+                Description = "Equipment Inactivated",
                 Actor = user,
                 ActorName = user.Name,
-                AssetType = "Access",
+                AssetType = "Equipment",
                 ActionType = "Inactivated",
                 Equipment = equipment
             };
@@ -187,7 +187,7 @@ namespace Keas.Mvc.Services
         {
             var historyEntry = new History
             {
-                Description = "Key Assigned",
+                Description = "Key Assigned to " + key.Assignment.Person.User.Name,
                 Actor = user,
                 ActorName = user.Name,
                 AssetType = "Key",
@@ -203,7 +203,7 @@ namespace Keas.Mvc.Services
         {
             var historyEntry = new History
             {
-                Description = "Access Assigned",
+                Description = "Access Assigned to ",
                 Actor = user,
                 ActorName = user.Name,
                 AssetType = "Access",
@@ -219,10 +219,10 @@ namespace Keas.Mvc.Services
         {
             var historyEntry = new History
             {
-                Description = "Access Assigned",
+                Description = "Equipment Assigned to " + equipment.Assignment.Person.User.Name,
                 Actor = user,
                 ActorName = user.Name,
-                AssetType = "Access",
+                AssetType = "Equipment",
                 ActionType = "Assigned",
                 Equipment = equipment
             };
@@ -267,10 +267,10 @@ namespace Keas.Mvc.Services
         {
             var historyEntry = new History
             {
-                Description = "Access Unassigned",
+                Description = "Equipment Unassigned",
                 Actor = user,
                 ActorName = user.Name,
-                AssetType = "Access",
+                AssetType = "Equipment",
                 ActionType = "Unassigned",
                 Equipment = equipment
             };
@@ -315,10 +315,10 @@ namespace Keas.Mvc.Services
         {
             var historyEntry = new History
             {
-                Description = "Access Accepted",
+                Description = "Equipment Accepted",
                 Actor = user,
                 ActorName = user.Name,
-                AssetType = "Access",
+                AssetType = "Equipment",
                 ActionType = "Accepted",
                 Equipment = equipment
             };
