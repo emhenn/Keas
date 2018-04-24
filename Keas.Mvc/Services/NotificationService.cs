@@ -8,7 +8,9 @@ namespace Keas.Mvc.Services
 {
     public interface INotificationService
     {
-        Task KeyCreated(Key key, History history);
+        Task KeyCreatedUpdatedInactive(Key key, History history);
+        Task EquipmentCreatedUpdatedInactive(Equipment equipment, History history);
+        Task AccessCreatedUpdatedInactive(Access access, History history);
 
     }
     public class NotificationService : INotificationService
@@ -23,7 +25,7 @@ namespace Keas.Mvc.Services
         }
 
         // Assume we email all Team KeyMasters & DepartmentalAdmins
-        public async Task KeyCreated(Key key, History history)
+        public async Task KeyCreatedUpdatedInactive(Key key, History history)
         {
             var roles = _dbContext.Roles
                     .Where(r => r.Name == Role.Codes.DepartmentalAdmin || r.Name == Role.Codes.KeyMaster).ToList();
@@ -40,5 +42,43 @@ namespace Keas.Mvc.Services
             }
            await _dbContext.SaveChangesAsync();
         }
+
+        public async Task EquipmentCreatedUpdatedInactive(Equipment equipment, History history)
+        {
+            var roles = _dbContext.Roles
+                .Where(r => r.Name == Role.Codes.DepartmentalAdmin || r.Name == Role.Codes.EquipmentMaster).ToList();
+            var users = await _securityService.GetUsersInRoles(roles, equipment.TeamId);
+            foreach (var user in users)
+            {
+                var emailQueue = new EmailQueue
+                {
+                    User = user,
+                    History = history,
+                    Details = string.Format("{0} By {1}.", history.Description, history.ActorName)
+                };
+                _dbContext.EmailQueues.Add(emailQueue);
+            }
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task AccessCreatedUpdatedInactive(Access access, History history)
+        {
+            var roles = _dbContext.Roles
+                .Where(r => r.Name == Role.Codes.DepartmentalAdmin || r.Name == Role.Codes.AccessMaster).ToList();
+            var users = await _securityService.GetUsersInRoles(roles, access.TeamId);
+            foreach (var user in users)
+            {
+                var emailQueue = new EmailQueue
+                {
+                    User = user,
+                    History = history,
+                    Details = string.Format("{0} By {1}.", history.Description, history.ActorName)
+                };
+                _dbContext.EmailQueues.Add(emailQueue);
+            }
+            await _dbContext.SaveChangesAsync();
+        }
+
+
     }
 }
