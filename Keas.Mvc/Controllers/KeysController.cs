@@ -5,7 +5,6 @@ using System.Net;
 using System.Threading.Tasks;
 using Keas.Core.Data;
 using Keas.Core.Domain;
-using Keas.Mvc.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,14 +14,10 @@ namespace Keas.Mvc.Controllers
     public class KeysController : SuperController
     {
         private readonly ApplicationDbContext _context;
-        private readonly IEventService _eventService;
-        private readonly ISecurityService _securityService;
 
-        public KeysController(ApplicationDbContext context, IEventService eventService, ISecurityService securityService)
+        public KeysController(ApplicationDbContext context)
         {
             this._context = context;
-            _eventService = eventService;
-            _securityService = securityService;
         }
 
         public string GetTeam()
@@ -41,28 +36,34 @@ namespace Keas.Mvc.Controllers
             return Json(keys);
         }
 
-        public async Task<IActionResult> ListAssigned(int personId, int teamId) {
-            var keyAssignments = await _context.Keys.Where(x=> x.Assignment.PersonId == personId && x.TeamId == teamId).Include(x=> x.Assignment).AsNoTracking().ToArrayAsync();
+        public async Task<IActionResult> GetKeysInRoom(string roomKey)
+        {
+            var equipment = await _context.Keys.Where(x => x.Room.RoomKey == roomKey).AsNoTracking().ToListAsync();
+            return Json(equipment);
+        }
+
+
+        public async Task<IActionResult> ListAssigned(int personId, int teamId)
+        {
+            var keyAssignments = await _context.Keys.Where(x => x.Assignment.PersonId == personId && x.TeamId == teamId).Include(x => x.Assignment).AsNoTracking().ToArrayAsync();
 
             return Json(keyAssignments);
         }
 
         // List all keys for a team
-        public async Task<IActionResult> List(int id) {
-            var keys = await _context.Keys.Where(x=> x.TeamId == id).Include(x=> x.Assignment).AsNoTracking().ToArrayAsync();
+        public async Task<IActionResult> List(int id)
+        {
+            var keys = await _context.Keys.Where(x => x.TeamId == id).Include(x => x.Assignment).AsNoTracking().ToArrayAsync();
 
             return Json(keys);
         }
-
         public async Task<IActionResult> Create([FromBody]Key key)
         {
             // TODO Make sure user has permissions
-            var user = await _securityService.GetUser();
             if (ModelState.IsValid)
             {
                 _context.Keys.Add(key);
                 await _context.SaveChangesAsync();
-                await _eventService.TrackCreateKey(key, user);
             }
             return Json(key);
         }
