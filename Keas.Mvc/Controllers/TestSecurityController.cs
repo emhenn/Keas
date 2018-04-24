@@ -76,5 +76,21 @@ namespace Keas.Mvc.Controllers
             }
             return Json(key);
         }
+
+        public async Task<IActionResult> Assign(int keyId, int personId, string date)
+        {
+            // TODO Make sure user has permssion, make sure equipment exists, makes sure equipment is in this team
+            if (ModelState.IsValid)
+            {
+                var key = await _context.Keys.SingleAsync(x => x.Id == keyId);
+                key.Assignment = new KeyAssignment { PersonId = personId, ExpiresAt = DateTime.Parse(date) };
+
+                _context.KeyAssignments.Add(key.Assignment);
+
+                await _context.SaveChangesAsync();
+                return Json(key);
+            }
+            return BadRequest(ModelState);
+        }
     }
 }

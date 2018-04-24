@@ -25,7 +25,7 @@ namespace Keas.Mvc.Services
         public async Task TrackCreateKey(Key key, User user)
         {
             var history = await _historyService.KeyCreated(key, user);
-            await _notificationService.KeyCreated(key, history);
+            await _notificationService.KeyCreatedUpdatedInactive(key, history);
         }
     }
 }
