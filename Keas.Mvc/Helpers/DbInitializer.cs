@@ -137,12 +137,12 @@ namespace Keas.Mvc.Helpers
             context.EquipmentAssignments.Add(equip2Assignment);
             context.Equipment.Add(equip2);
             
-            var history = new History {
-                Person = jasonCaes,
-                Actor = scott,
-                Description = "Something important happened",
-                Key = key
-            };
+            //var history = new History {
+            //    Person = jasonCaes,
+            //    Actor = scott,
+            //    Description = "Something important happened",
+            //    Key = key
+            //};
 
             var scottKey = new TeamPermission{ Id = 1, Team = caes, Role = keyMaster, User = scott};
             var scottEquip = new TeamPermission {Id = 2, Team = caes, Role = equipMaster, User = scott};
@@ -153,7 +153,7 @@ namespace Keas.Mvc.Helpers
             context.TeamPermissions.Add(jasonEquip);
             context.TeamPermissions.Add(jamesKey);
 
-            context.Histories.Add(history);
+            //context.Histories.Add(history);
 
             context.SaveChanges();
         }
