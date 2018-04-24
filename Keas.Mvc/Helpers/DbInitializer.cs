@@ -16,7 +16,7 @@ namespace Keas.Mvc.Helpers
             if (context.Users.Any()) return; // already initialized
 
             // add in some default factilities
-            var room1 = new Room { BldgKey = "01", FloorKey = "01", RoomKey = "01", BldgName="Foo", RoomName = "Bar", RoomNumber = "12" };
+            var room1 = new Room { BldgKey = "01", FloorKey = "01", RoomKey = "01", BldgName = "Foo", RoomName = "Bar", RoomNumber = "12" };
             var space1 = new Space { Room = room1, ChartNum = "3", OrgId = "ADNO" };
             context.Spaces.Add(space1);
 
@@ -51,10 +51,10 @@ namespace Keas.Mvc.Helpers
 
 
             // Roles
-            var keyMaster = new Role { Id= 1, Name = "KeyMaster"};
-            var equipMaster = new Role {Id = 2, Name = "EquipMaster"};
-            var departmentAdmin = new Role {Id= 3, Name = "DepartmentalAdmin"};
-            var accessMaster = new Role {Id = 4, Name = "AccessMaster"};
+            var keyMaster = new Role { Id = 1, Name = "KeyMaster" };
+            var equipMaster = new Role { Id = 2, Name = "EquipMaster" };
+            var departmentAdmin = new Role { Id = 3, Name = "DepartmentalAdmin" };
+            var accessMaster = new Role { Id = 4, Name = "AccessMaster" };
 
             context.Roles.Add(keyMaster);
             context.Roles.Add(equipMaster);
@@ -62,13 +62,14 @@ namespace Keas.Mvc.Helpers
             context.Roles.Add(accessMaster);
 
             // add assets
-            var jasonCaes = new Person { User = jason, Id=1, Team = caes, Group = "CRU" };
-            var scottCaes = new Person { User = scott, Id=2, Team = caes, Group = "CRU" };
+            var jasonCaes = new Person { User = jason, Id = 1, Team = caes, Group = "CRU" };
+            var scottCaes = new Person { User = scott, Id = 2, Team = caes, Group = "CRU" };
 
 
             var access = new Access
             {
-                Name = "PPS", Team = caes
+                Name = "PPS",
+                Team = caes
             };
             var accessAssignment = new AccessAssignment
             {
@@ -105,7 +106,7 @@ namespace Keas.Mvc.Helpers
             };
 
             var key = new Key { SerialNumber = "SN", Team = caes, Name = "38 Mrak Keycard", Assignment = keyAssignment, Room = room2 };
-            var keyUnassigned = new Key {SerialNumber = "123", Team =  caes, Name = "Test", Room = room1};
+           
 
             var equipmentAssignment = new EquipmentAssignment
             {
@@ -122,7 +123,7 @@ namespace Keas.Mvc.Helpers
             context.AccessAssignments.Add(accessAssignment2);
 
             context.Keys.Add(key);
-            context.Keys.Add(keyUnassigned);
+            
             context.KeyAssignments.Add(keyAssignment);
             context.EquipmentAssignments.Add(equipmentAssignment);
             context.Equipment.Add(equipment);
@@ -138,7 +139,7 @@ namespace Keas.Mvc.Helpers
 
             context.EquipmentAssignments.Add(equip2Assignment);
             context.Equipment.Add(equip2);
-            
+
             //var history = new History {
             //    Person = jasonCaes,
             //    Actor = scott,
@@ -146,10 +147,10 @@ namespace Keas.Mvc.Helpers
             //    Key = key
             //};
 
-            var scottKey = new TeamPermission{ Id = 1, Team = caes, Role = keyMaster, User = scott};
-            var scottEquip = new TeamPermission {Id = 2, Team = caes, Role = equipMaster, User = scott};
+            var scottKey = new TeamPermission { Id = 1, Team = caes, Role = keyMaster, User = scott };
+            var scottEquip = new TeamPermission { Id = 2, Team = caes, Role = equipMaster, User = scott };
             var jasonEquip = new TeamPermission { Id = 3, Team = caes, Role = equipMaster, User = jason };
-            var jamesKey = new TeamPermission{Id = 4, Team = caes, Role = keyMaster, User = james};
+            var jamesKey = new TeamPermission { Id = 4, Team = caes, Role = keyMaster, User = james };
             context.TeamPermissions.Add(scottKey);
             context.TeamPermissions.Add(scottEquip);
             context.TeamPermissions.Add(jasonEquip);
