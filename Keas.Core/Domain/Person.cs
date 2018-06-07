@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Keas.Core.Domain
 {
@@ -25,6 +26,10 @@ namespace Keas.Core.Domain
         public string Title { get; set; }
         public string HomePhone { get; set; }
         public string TeamPhone { get; set; }
+        public string PersonName { get; set; }
+
+        public string Name => PersonName ?? User.Name;
+        
         public List<AccessAssignment> AccessAssignments { get; set; }
     }
 }

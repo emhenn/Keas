@@ -33,6 +33,8 @@ export interface IPerson {
   id: number;
   userid: number;
   teamId: number;
+  name: string;
+  phone: string;
   user: IUser;
 }
 
