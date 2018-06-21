@@ -55,15 +55,17 @@ export default class EditBio extends React.Component<IProps, IState> {
             return null;
         }
         return (
+            <div>
+                <Button color="danger" onClick={() => this.props.onEdit(this.props.selectedPerson)}>
+                    Edit Bio
+                </Button>
             <Modal isOpen={this.props.modal} toggle={this._closeModal} size="lg">
                 <ModalHeader>Edit Biographical Info</ModalHeader>
                 <ModalBody>
                     <div className="container-fluid">
                         <form>
                             <BioEditValues
-                                selectedKey={this.state.key}
-                                changeProperty={this._changeProperty}
-                                disableEditing={false}
+                                selectedperson={this.props.person}
                             />
                         </form>
                     </div>
@@ -81,6 +83,7 @@ export default class EditBio extends React.Component<IProps, IState> {
                     </Button>
                 </ModalFooter>
             </Modal>
+                </div>
         );
     }
 

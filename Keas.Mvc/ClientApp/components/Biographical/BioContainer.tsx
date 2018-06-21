@@ -10,7 +10,9 @@ interface IProps {
 }
 interface IState {
     loading: boolean;
-}
+    person: IPerson[];
+};
+
 export default class BioContainer extends React.Component<IProps, IState> {
     public static contextTypes = {
         fetch: PropTypes.func,
@@ -23,7 +25,8 @@ export default class BioContainer extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            loading: true
+            loading: true,
+            person: []
         };
     }
 
@@ -75,7 +78,19 @@ export default class BioContainer extends React.Component<IProps, IState> {
             ...this.state,
             person: updateperson
         });
+  }
+
+    private _openEditModal = (person: IPerson) => {
+        this.context.router.history.push(
+            `${this._getBaseUrl()}/people/edit/${person.id}`
+        );
     }
+
+    private _getBaseUrl = () => {
+        return this.props.person
+            ? `/${this.context.team.name}/people/details/${this.props.person.id}`
+            : `/${this.context.team.name}`;
+    };
 }
 
 
