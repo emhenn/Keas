@@ -33,7 +33,7 @@ namespace Keas.Mvc.Controllers.Api
             var comparison = StringComparison.OrdinalIgnoreCase;
             var keys = await _context.Serials
                 .Where(x => x.Key.Team.Name == Team && x.Key.Active && x.Active && x.Assignment == null
-                    && (x.Key.Name.StartsWith(q, comparison) || x.Number.StartsWith(q, comparison)))
+                    && (x.Key.Name.IndexOf(q, comparison) >= 0 || x.Key.Number.IndexOf(q, comparison) >= 0)) // case-insensitive version of .Contains
                 .Include(x => x.Key)
                 .ThenInclude(key => key.KeyXSpaces)
                 .ThenInclude(keyXSpaces => keyXSpaces.Space)
