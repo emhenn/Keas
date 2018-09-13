@@ -28,13 +28,12 @@ namespace Keas.Mvc.Controllers.Api
         }
 
 
-        //Return Serials instead????
         public async Task<IActionResult> Search(string q)
         {
-            var comparison = StringComparison.InvariantCultureIgnoreCase;
+            var comparison = StringComparison.OrdinalIgnoreCase;
             var keys = await _context.Serials
                 .Where(x => x.Key.Team.Name == Team && x.Key.Active && x.Active && x.Assignment == null
-                            && (x.Key.Name.StartsWith(q, comparison) || x.Number.StartsWith(q, comparison)))
+                    && (x.Key.Name.StartsWith(q, comparison) || x.Number.StartsWith(q, comparison)))
                 .Include(x => x.Key)
                 .ThenInclude(key => key.KeyXSpaces)
                 .ThenInclude(keyXSpaces => keyXSpaces.Space)
@@ -71,11 +70,14 @@ namespace Keas.Mvc.Controllers.Api
         // List all keys for a team
         public async Task<IActionResult> List()
         {
-            var keys = await _context.Serials
-                .Where(x => x.Key.Team.Name == Team)
-                .Include(x => x.Assignment)
+            var keys = await _context.Keys
+                .Where(x => x.Team.Name == Team)
+                .Include(x => x.Serials)
+                .ThenInclude(x => x.Assignment)
                 .ThenInclude(assignment => assignment.Person.User)
-                .Include(x => x.Key.Team)
+                .Include(x => x.Team)
+                .Include(x => x.KeyXSpaces)
+                .ThenInclude(x => x.Space)
                 .AsNoTracking()
                 .ToArrayAsync();
             return Json(keys);

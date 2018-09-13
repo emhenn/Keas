@@ -9,10 +9,15 @@ import KeyDetails from "./KeyDetails";
 import KeyList from "./KeyList";
 import Denied from "../Shared/Denied";
 import {PermissionsUtil} from "../../util/permissions"; 
+import SearchTags from "../Tags/SearchTags";
+import KeyTable from "./KeyTable";
 
 interface IState {
   loading: boolean;
   keys: IKey[]; // either key assigned to this person, or all team keys
+  tags: string[];
+  tagFilters: string[];
+  tableFilters: any[];
 }
 
 interface IProps {
@@ -36,7 +41,10 @@ export default class KeyContainer extends React.Component<IProps, IState> {
 
     this.state = {
       keys: [],
-      loading: true
+      loading: true,
+      tags: [],
+      tagFilters: [],
+      tableFilters: []
     };
   }
   public async componentDidMount() {
@@ -52,7 +60,9 @@ export default class KeyContainer extends React.Component<IProps, IState> {
     }
 
     const keys = await this.context.fetch(keyFetchUrl);
-    this.setState({ keys, loading: false });
+    const tags = await this.context.fetch(`/api/${this.context.team.name}/tags/listTags`);
+
+    this.setState({ keys, loading: false, tags });
   }
   public render() {
     if (!PermissionsUtil.canViewKeys(this.context.permissions)) {
@@ -73,13 +83,7 @@ export default class KeyContainer extends React.Component<IProps, IState> {
       <div className="card">
         <div className="card-body">
         <h4 className="card-title"><i className="fas fa-key fa-xs"/> Keys</h4>
-          <KeyList
-            keys={this.state.keys}
-            onRevoke={this._revokeKey}
-            onAdd={this._openAssignModal}
-            onEdit={this._openEditModal}
-            showDetails={this._openDetailsModal}
-          />
+          {this._renderTableOrList()}
           <AssignKey
             onCreate={this._createAndMaybeAssignKey}
             modal={activeAsset && (action === "create" || action === "assign")}
@@ -103,6 +107,54 @@ export default class KeyContainer extends React.Component<IProps, IState> {
       </div>
     );
   }
+
+  private _renderTableOrList = () => {
+    if(!!this.props.person || !!this.props.space)
+    {
+      return(
+      <div>
+          <KeyList
+            keys={this.state.keys}
+            onRevoke={this._revokeKey}
+            onAdd={this._openAssignModal}
+            onEdit={this._openEditModal}
+            showDetails={this._openDetailsModal}
+          />
+    </div>);
+    }
+    else
+    {
+      let filteredKeys = this.state.keys;
+      if(this.state.tagFilters.length > 0)
+      {
+        filteredKeys = filteredKeys.filter(x => this._checkTagFilters(x, this.state.tagFilters));
+      }
+      return(
+        <div>
+          <SearchTags tags={this.state.tags} selected={this.state.tagFilters} onSelect={this._filterTags} disabled={false}/>
+          <KeyTable
+            keys={filteredKeys}
+            showDetails={this._openDetailsModal}
+            updateFilters={this._updateTableFilters}
+            filtered={this.state.tableFilters}
+          />
+        </div>
+      );
+
+    }
+  }
+  
+  private _filterTags = (filters: string[]) => {
+    this.setState({tagFilters: filters});
+}
+
+  private _checkTagFilters = (key: IKey, filters: string[]) => {
+    return filters.every(f => key.tags.includes(f));
+  }
+
+  private _updateTableFilters = (filters: any[]) => {
+    this.setState({tableFilters: filters});
+}
 
   private _createAndMaybeAssignKey = async (
     person: IPerson,

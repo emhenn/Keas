@@ -55,17 +55,32 @@ export interface ITeam {
 
 export interface IKey {
   id: number;
-  teamId: number;
+  keyXSpaces: IKeyXSpace[];
   name: string;
-  serialNumber: string;
-  assignment?: IKeyAssignment;
+  number: string;
+  serials: ISerial[];
+  tags: string;
+  teamId: number;
+}
+
+export interface IKeyXSpace {
+  keyId: number;
+  spaceId: number;
+  space: ISpace;
+}
+
+export interface ISerial {
+  id: number;
+  key?: IKey;
+  keyId: number;
+  number: string;
+  assignment: IKeyAssignment;
 }
 
 export interface IKeyAssignment {
   id: number;
   keyId: number;
   expiresAt: Date;
-  key: IKey;
   person: IPerson;
 }
 
