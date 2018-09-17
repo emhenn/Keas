@@ -37,7 +37,7 @@ export default class KeyTable extends React.Component<IProps, {}> {
                         resizable: false,
                         className: "spaces-details",
                         Cell: row => (
-                            <Button color="secondary" onClick={() => this.props.showDetails(row.original.key)}>
+                            <Button color="secondary" onClick={() => this.props.showDetails(row.original)}>
                             View Details
                             </Button>
                         ),
@@ -74,7 +74,7 @@ export default class KeyTable extends React.Component<IProps, {}> {
                                 return true;
                             }
                             if( filter.value === "available") {
-                                return (row._original.serialsTotal - row._original.serialsInUse) > 0;
+                                return (row._original.serials.some(x => !x.assignment);
                             }
                         },
                         Filter: ({filter, onChange}) => 
