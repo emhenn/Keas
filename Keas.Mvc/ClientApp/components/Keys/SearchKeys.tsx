@@ -107,8 +107,11 @@ export default class SearchKeys extends React.Component<IProps, IState> {
             // if teamId is not set, this is a new key
             this.props.onSelect({
                 id: key.teamId ? key.id : 0,
+                keyXSpaces: key.teamId ? key.keyXSpaces : [],
                 name: key.name,
-                serialNumber: key.serialNumber ? key.serialNumber : "",
+                number: key.teamId ? key.number : "",
+                serials: key.teamId ? key.serials : [],
+                tags: key.teamId ? key.tags : "",
                 teamId: key.teamId ? key.teamId : 0,
             });
         }
