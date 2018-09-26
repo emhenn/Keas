@@ -31,11 +31,11 @@ export default class KeyTable extends React.Component<IProps, {}> {
                 columns = {[
                     {
                         Header: "Actions",
-                        headerClassName: "spaces-details",
+                        headerClassName: "space-actions",
                         filterable: false,
                         sortable: false,
                         resizable: false,
-                        className: "spaces-details",
+                        className: "space-actions",
                         Cell: row => (
                             <Button color="secondary" onClick={() => this.props.showDetails(row.original)}>
                             View Details
