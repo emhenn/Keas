@@ -3,13 +3,13 @@ import * as React from "react";
 
 import { AppContext, IKey, IPerson, ISpace } from "../../Types";
 
+import {PermissionsUtil} from "../../util/permissions"; 
+import Denied from "../Shared/Denied";
+import SearchTags from "../Tags/SearchTags";
 import AssignKey from "./AssignKey";
 import EditKey from "./EditKey";
 import KeyDetails from "./KeyDetails";
 import KeyList from "./KeyList";
-import Denied from "../Shared/Denied";
-import {PermissionsUtil} from "../../util/permissions"; 
-import SearchTags from "../Tags/SearchTags";
 import KeyTable from "./KeyTable";
 
 interface IState {
@@ -42,9 +42,9 @@ export default class KeyContainer extends React.Component<IProps, IState> {
     this.state = {
       keys: [],
       loading: true,
-      tags: [],
+      tableFilters: [],
       tagFilters: [],
-      tableFilters: []
+      tags: [],
     };
   }
   public async componentDidMount() {

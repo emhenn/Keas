@@ -12,7 +12,7 @@ import AccessContainer from "../Access/AccessContainer";
 import BioContainer from "../Biographical/BioContainer";
 import EquipmentContainer from "../Equipment/EquipmentContainer";
 import HistoryContainer from "../History/HistoryContainer";
-import KeyContainer from "../Keys/KeyContainer";
+import SerialContainer from "../Serials/SerialContainer";
 import WorkstationContainer from "../Workstations/WorkstationContainer";
 
 interface IProps {
@@ -42,7 +42,7 @@ export default class PersonDetails extends React.Component<IProps, {}> {
                 <hr />
                 <div>
                         <BioContainer person={this.props.selectedPerson} />
-                        <KeyContainer person={this.props.selectedPerson}
+                        <SerialContainer person={this.props.selectedPerson}
                             assetInUseUpdated={this.props.inUseUpdated}
                             assetEdited={this.props.edited}
                         />

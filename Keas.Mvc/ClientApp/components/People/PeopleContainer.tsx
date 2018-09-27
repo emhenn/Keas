@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 import * as React from "react";
 
-import { AppContext, IPersonInfo, IPerson } from "../../Types";
-import PeopleTable from "./PeopleTable";
-import Denied from "../Shared/Denied";
+import { AppContext, IPerson, IPersonInfo } from "../../Types";
 import { PermissionsUtil } from "../../util/permissions"; 
+import Denied from "../Shared/Denied";
 import SearchTags from "../Tags/SearchTags";
+import PeopleTable from "./PeopleTable";
 import PersonDetails from "./PersonDetails";
 
 interface IState {
