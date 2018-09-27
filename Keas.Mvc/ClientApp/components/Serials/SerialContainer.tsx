@@ -2,10 +2,11 @@ import PropTypes from "prop-types";
 import * as React from "react";
 import { Button } from "reactstrap";
 import { AppContext, IKey, IPerson, ISerial, ISpace } from "../../Types";
-import AssignSerial from "../Serials/AssignSerial";
-import EditSerial from "../Serials/EditSerial";
-import RevokeSerial from "../Serials/RevokeSerial";
-import SerialList from "./../Serials/SerialList";
+import AssignSerial from "./AssignSerial";
+import EditSerial from "./EditSerial";
+import RevokeSerial from "./RevokeSerial";
+import SerialDetails from "./SerialDetails";
+import SerialList from "./SerialList";
 
 interface IProps {
     assetInUseUpdated?: (type: string, spaceId: number, personId: number, count: number) => void;
@@ -86,7 +87,11 @@ export default class SerialContainer extends React.Component<IProps, IState> {
                             <Button color="danger" onClick={() => this._openCreateModal()}>
                                 Add Serial
                             </Button>
-
+                            <SerialDetails
+                                closeModal={this._closeModals}
+                                modal={activeAsset && action === "details"}
+                                selectedSerial={selectedSerial}
+                                />
                             <EditSerial
                                 closeModal={this._closeModals}
                                 tags={this.props.tags}

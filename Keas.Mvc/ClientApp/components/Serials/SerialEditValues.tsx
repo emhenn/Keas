@@ -19,34 +19,50 @@ export default class SerialEditValues extends React.Component<IProps, {}> {
         }
         return (
             <div>
+                <div className="form-group">
+                    <label>Key Name</label>
+                    <input type="text"
+                        className="form-control"
+                        disabled={true}
+                        value={this.props.selectedSerial.key.name}
+                        />
+                </div>
+                <div className="form-group">
+                    <label>Spaces</label>
+                    <input type="text"
+                        className="form-control"
+                        disabled={true}
+                        value="spaces"
+                        />
+                </div>
                 {!this.props.creating &&
                 <div className="form-group">
-                    <label>Name</label>
+                    <label>Serial Number</label>
                     <input type="text"
                         className="form-control"
                         disabled={this.props.disableEditing}
                         value={this.props.selectedSerial.number ? this.props.selectedSerial.number : ""}
-                        onChange={(e) => this.props.changeProperty("name", e.target.value)}
+                        onChange={(e) => this.props.changeProperty("number", e.target.value)}
                     />
                 </div>}
                 {this.props.selectedSerial.assignment != null &&
                 <div>
-                <div className="form-group">
-                    <label>Assigned To</label>
-                    <input type="text"
-                        className="form-control"
-                        disabled={true}
-                        value={this.props.selectedSerial.assignment.person.user.name}
-                        />
-                </div>
-                <div className="form-group">
-                    <label>Expires at</label>
-                    <input type="text"
-                        className="form-control"
-                        disabled={true}
-                        value={this.props.selectedSerial.assignment.expiresAt.toString()}
-                        />
-                </div>
+                    <div className="form-group">
+                        <label>Assigned To</label>
+                        <input type="text"
+                            className="form-control"
+                            disabled={true}
+                            value={this.props.selectedSerial.assignment.person.user.name}
+                            />
+                    </div>
+                    <div className="form-group">
+                        <label>Expires at</label>
+                        <input type="text"
+                            className="form-control"
+                            disabled={true}
+                            value={this.props.selectedSerial.assignment.expiresAt.toString()}
+                            />
+                    </div>
                 </div>
                 }
 
