@@ -21,22 +21,25 @@ export default class SerialEditValues extends React.Component<IProps, {}> {
             this.props.selectedSerial.key.keyXSpaces.map(x => x.space.roomNumber + " " + x.space.bldgName ).join(", ") : "";
         return (
             <div>
-                <div className="form-group">
-                    <label>Key Name</label>
-                    <input type="text"
-                        className="form-control"
-                        disabled={true}
-                        value={this.props.selectedSerial.key.name}
-                        />
-                </div>
-                <div className="form-group">
-                    <label>Spaces</label>
-                    <input type="text"
-                        className="form-control"
-                        disabled={true}
-                        value={spacesNames}
-                        />
-                </div>
+                {this.props.selectedSerial.key && 
+                <div>
+                    <div className="form-group">
+                        <label>Key Name</label>
+                        <input type="text"
+                            className="form-control"
+                            disabled={true}
+                            value={this.props.selectedSerial.key.name}
+                            />
+                    </div>
+                    <div className="form-group">
+                        <label>Spaces</label>
+                        <input type="text"
+                            className="form-control"
+                            disabled={true}
+                            value={spacesNames}
+                            />
+                    </div>
+                </div> }
                 {!this.props.creating &&
                 <div className="form-group">
                     <label>Serial Number</label>

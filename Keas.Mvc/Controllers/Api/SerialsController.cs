@@ -135,22 +135,21 @@ namespace Keas.Mvc.Controllers.Api
             return BadRequest(ModelState);
         }
 
-    //     public async Task<IActionResult> Update([FromBody]Serial serial)
-    //     {
-    //         //TODO: check permissions
-    //         if (ModelState.IsValid)
-    //         {
-    //             var w = await _context.Serials.Where(x => x.Team.Name == Team)
-    //                 .SingleAsync(x => x.Id == serial.Id);
+        public async Task<IActionResult> Update([FromBody]Serial serial)
+        {
+            //TODO: check permissions
+            if (ModelState.IsValid)
+            {
+                var w = await _context.Serials.Where(x => x.Key.Team.Name == Team)
+                    .SingleAsync(x => x.Id == serial.Id);
                     
-    //             w.Name = serial.Name;
-    //             w.Tags = serial.Tags;
+                w.Number = serial.Number;
 
-    //             await _context.SaveChangesAsync();
-    //             return Json(w);
-    //         }
-    //         return BadRequest(ModelState);
-    //     }
+                await _context.SaveChangesAsync();
+                return Json(w);
+            }
+            return BadRequest(ModelState);
+        }
 
     //     public async Task<IActionResult> GetHistory(int id)
     //     {

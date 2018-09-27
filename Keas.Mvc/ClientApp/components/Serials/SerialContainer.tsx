@@ -214,10 +214,14 @@ export default class SerialContainer extends React.Component<IProps, IState> {
         {
           return;
         }
+        const key = serial.key;
+        // null out key so model state is valid
+        serial.key = null;
         const updated: ISerial = await this.context.fetch(`/api/${this.context.team.name}/serials/update`, {
           body: JSON.stringify(serial),
           method: "POST"
         });
+        updated.key = key;
 
         updated.assignment = serial.assignment;
 
