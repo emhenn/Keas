@@ -15,8 +15,22 @@ interface IProps {
 export default class EquipmentListItem extends React.Component<IProps, {}> {
     public render() {
         const hasAssignment = !!this.props.serialEntity.assignment;
+        const spaceNamesArray = !!this.props.serialEntity.key ? 
+          this.props.serialEntity.key.keyXSpaces.map(x => x.space.roomNumber + " " + x.space.bldgName) : [];
+        let spaceNames = "";
+        if(spaceNamesArray.length > 2)
+        {
+          spaceNamesArray.splice(0,2);
+          spaceNames = spaceNamesArray.join(", ").concat("...");
+        }
+        else
+        {
+          spaceNames = spaceNamesArray.join(", ");
+        }
         return (
           <tr>
+            <td>{this.props.serialEntity.key ? this.props.serialEntity.key.name : ""}</td>
+            <td>{spaceNames}</td>
             <td>{this.props.serialEntity.number}</td>
             <td>{hasAssignment ? this.props.serialEntity.assignment.person.user.name : ""}</td>
             <td>
@@ -38,3 +52,4 @@ export default class EquipmentListItem extends React.Component<IProps, {}> {
         );
       }
 }
+ 

@@ -29,6 +29,8 @@ export default class SerialList extends React.Component<IProps, {}> {
         <table className="table">
           <thead>
             <tr>
+              <th>Key Name</th>
+              <th>Spaces</th>
               <th>Number</th>
               <th>Assigned To</th>
               <th>Expiration</th>
