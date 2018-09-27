@@ -105,6 +105,7 @@ namespace Keas.Mvc.Controllers.Api
             if (ModelState.IsValid)
             {
                 var serial = await _context.Serials.Where(x => x.Key.Team.Name == Team)
+                    .Include(x => x.Key)
                     .SingleAsync(x => x.Id == serialId);
 
                 serial.Assignment = new KeyAssignment { PersonId = personId, ExpiresAt = DateTime.Parse(date) };

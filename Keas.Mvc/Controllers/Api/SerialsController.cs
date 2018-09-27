@@ -53,6 +53,9 @@ namespace Keas.Mvc.Controllers.Api
         {
             var serialAssignments = await _context.Serials
                 .Where(w => w.Assignment.PersonId == personId)
+                .Include(x => x.Key)
+                .ThenInclude(x => x.KeyXSpaces)
+                .ThenInclude(x => x.Space)
                 .Include(w => w.Assignment)
                 .ThenInclude(w => w.Person.User)
                 .AsNoTracking().ToArrayAsync();
