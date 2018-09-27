@@ -21,7 +21,7 @@ export default class EquipmentListItem extends React.Component<IProps, {}> {
         if(spaceNamesArray.length > 2)
         {
           spaceNamesArray = spaceNamesArray.slice(0,2);
-          spaceNames = spaceNamesArray.join(", ").concat("...");
+          spaceNames = spaceNamesArray.join(", ").concat(",...");
         }
         else
         {

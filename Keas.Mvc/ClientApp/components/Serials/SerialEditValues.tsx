@@ -17,6 +17,8 @@ export default class SerialEditValues extends React.Component<IProps, {}> {
         {
             return null;
         }
+        const spacesNames = this.props.selectedSerial.key ? 
+            this.props.selectedSerial.key.keyXSpaces.map(x => x.space.roomNumber + " " + x.space.bldgName ).join(", ") : "";
         return (
             <div>
                 <div className="form-group">
@@ -32,7 +34,7 @@ export default class SerialEditValues extends React.Component<IProps, {}> {
                     <input type="text"
                         className="form-control"
                         disabled={true}
-                        value="spaces"
+                        value={spacesNames}
                         />
                 </div>
                 {!this.props.creating &&
