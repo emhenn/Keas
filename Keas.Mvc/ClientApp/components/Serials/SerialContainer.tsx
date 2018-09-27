@@ -178,6 +178,8 @@ export default class SerialContainer extends React.Component<IProps, IState> {
       };
     
       private _revokeSerial = async (serial: ISerial) => {
+        // null out key so model state is valid
+        serial.key = null;
         // call API to actually revoke
         const removed: ISerial = await this.context.fetch(`/api/${this.context.team.name}/serials/revoke`, {
           body: JSON.stringify(serial),

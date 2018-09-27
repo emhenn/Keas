@@ -117,23 +117,23 @@ namespace Keas.Mvc.Controllers.Api
     //         return BadRequest(ModelState);
     //     }
 
-    //     public async Task<IActionResult> Revoke([FromBody] Serial serial)
-    //     {
-    //         // TODO permission
-    //         if (ModelState.IsValid)
-    //         {
-    //             var serialToUpdate = await _context.Serials.Where(x => x.Team.Name == Team)
-    //                 .Include(w => w.Assignment).ThenInclude(w => w.Person.User)
-    //                 .SingleAsync(w => w.Id == serial.Id);
+        public async Task<IActionResult> Revoke([FromBody] Serial serial)
+        {
+            // TODO permission
+            if (ModelState.IsValid)
+            {
+                var serialToUpdate = await _context.Serials.Where(x => x.Key.Team.Name == Team)
+                    .Include(w => w.Assignment).ThenInclude(w => w.Person.User)
+                    .SingleAsync(w => w.Id == serial.Id);
 
-    //             _context.SerialAssignments.Remove(serialToUpdate.Assignment);
-    //             serialToUpdate.Assignment = null;
-    //             await _context.SaveChangesAsync();
-    //             await _eventService.TrackUnAssignSerial(serial);
-    //             return Json(null);
-    //         }
-    //         return BadRequest(ModelState);
-    //     }
+                _context.KeyAssignments.Remove(serialToUpdate.Assignment);
+                serialToUpdate.Assignment = null;
+                await _context.SaveChangesAsync();
+                // await _eventService.TrackUnAssignSerial(serial);
+                return Json(null);
+            }
+            return BadRequest(ModelState);
+        }
 
     //     public async Task<IActionResult> Update([FromBody]Serial serial)
     //     {
