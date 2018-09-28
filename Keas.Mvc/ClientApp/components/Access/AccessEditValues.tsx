@@ -2,6 +2,8 @@
 
 import { IAccess } from "../../Types";
 
+import ReactTable from 'react-table';
+
 interface IProps {
     selectedAccess: IAccess;
     disableEditing: boolean;
@@ -31,6 +33,21 @@ export default class AccessEditValues extends React.Component<IProps, {}> {
                     />
                 </div>
             </div>) : "";
+        
+        const columns = [{
+            id: 'personFirstName',
+            Header: 'First Name',
+            accessor: x=> x.person.firstName
+        }, {
+            id: 'personLastName',
+            Header: 'Last Name',
+            accessor: x=> x.person.lastName
+        }, {
+            id: 'expiresAt'
+            Header: 'Expires at',
+            accessor: x=> x.expiresAt.toString()
+        }]     
+        
 
         return (
             <div>
@@ -43,8 +60,9 @@ export default class AccessEditValues extends React.Component<IProps, {}> {
                         value={this.props.selectedAccess.name ? this.props.selectedAccess.name : ""}
                         onChange={(e) => this.props.changeProperty("name", e.target.value)}
                     />
-                </div>}
-                {assignments}
+                </div>}   
+                <h3>Assigned to:</h3>             
+                <ReactTable data={this.props.selectedAccess.assignments} columns={columns} minRows={1} />             
             </div>
         );
     }
