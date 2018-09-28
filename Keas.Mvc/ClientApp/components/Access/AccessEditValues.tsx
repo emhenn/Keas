@@ -1,8 +1,9 @@
-﻿import * as React from "react";
+﻿import * as React from 'react';
 
-import { IAccess } from "../../Types";
+import { IAccess } from '../../Types';
 
 import ReactTable from 'react-table';
+import * as moment from "moment";
 
 interface IProps {
     selectedAccess: IAccess;
@@ -14,41 +15,24 @@ interface IProps {
 export default class AccessEditValues extends React.Component<IProps, {}> {
 
     public render() {
-        const assignments = this.props.selectedAccess.assignments.length > 0 ? this.props.selectedAccess.assignments.map(x =>
-            <div key={x.id} >
-                <div className="form-group">
-                    <label>Assigned To</label>
-                    <input type="text"
-                        className="form-control"
-                        disabled={true}
-                        value={x.person.name}
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Expires At</label>
-                    <input type="text"
-                        className="form-control"
-                        disabled={true}
-                        value={x.expiresAt.toString()}
-                    />
-                </div>
-            </div>) : "";
-        
         const columns = [{
-            id: 'personFirstName',
-            Header: 'First Name',
+            id: "personFirstName",
+            Header: "First Name",
             accessor: x=> x.person.firstName
         }, {
-            id: 'personLastName',
-            Header: 'Last Name',
+            id: "personLastName",
+            Header: "Last Name",
             accessor: x=> x.person.lastName
         }, {
-            id: 'expiresAt'
-            Header: 'Expires at',
-            accessor: x=> x.expiresAt.toString()
+            id: "expiresAt"
+            Header: "Expires at",
+            accessor: x=> moment(x.expiresAt).format("MM/DD/YYYY").toString()
+        },{
+            Header: "Revoke",
+            Cell: "X do something here",
+            sortable: false,
         }]     
         
-
         return (
             <div>
                 {!this.props.creating &&
