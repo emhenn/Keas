@@ -75,7 +75,7 @@ export default class SerialContainer extends React.Component<IProps, IState> {
         return (
             <div className="card">
                 <div className="card-body">
-                    <h4 className="card-title"><i className="fas fa-user fa-xs"/> Serials</h4>
+                <h4 className="card-title"><i className="fas fa-key fa-xs"/> Key Serials</h4>
                         {this.state.serials.length > 0 ? 
                             <SerialList 
                                     serials={this.state.serials} 
