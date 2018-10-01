@@ -74,9 +74,12 @@ export default class SerialContainer extends React.Component<IProps, IState> {
         {
             return (<div>Loading Serials...</div>);
         }
-        const { serialAction, serialAsset, serialId } = this.context.router.route.match.params;
-        const activeAsset = serialAsset === "serials";
-        const selectedId = parseInt(serialId, 10);
+        // router will try to match serialAction, serialAsset, serialId first
+        // if there is not match (and we are on /people/details) then it will default to action/assetType/id
+        const { action, assetType, id, serialAction, serialAsset, serialId } = this.context.router.route.match.params;
+        const activeAsset = serialAsset === "serials" || assetType === "serials";
+        const selectedId = !!serialId ? parseInt(serialId, 10) : parseInt(id, 10);
+        const actionType = !!serialAction ? serialAction : action; 
         const selectedSerial = this.state.serials.find(k => k.id === selectedId);
 
         return (
@@ -97,19 +100,19 @@ export default class SerialContainer extends React.Component<IProps, IState> {
                             </Button>
                             <SerialDetails
                                 closeModal={this._closeModals}
-                                modal={activeAsset && serialAction === "details"}
+                                modal={activeAsset && actionType === "details"}
                                 selectedSerial={selectedSerial}
                                 />
                             <EditSerial
                                 closeModal={this._closeModals}
-                                modal={activeAsset && serialAction === "edit"}
+                                modal={activeAsset && actionType === "edit"}
                                 selectedSerial={selectedSerial}
                                 onEdit={this._editSerial}
                                 />
                             <AssignSerial
                                 closeModal={this._closeModals}
                                 selectedKey={this.props.selectedKey}
-                                modal={activeAsset && (serialAction === "assign" || serialAction ==="create")}
+                                modal={activeAsset && (actionType === "assign" || actionType ==="create")}
                                 person={this.props.person}
                                 selectedSerial={selectedSerial}
                                 onCreate={this._createAndMaybeAssignSerial}
