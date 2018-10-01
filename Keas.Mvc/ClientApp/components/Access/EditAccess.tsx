@@ -13,7 +13,7 @@ import {
 import * as moment from "moment";
 import DatePicker from "react-datepicker";
 import { AppContext, IAccess, IAccessAssignment, IPerson } from "../../Types";
-import AssignPerson from "../Biographical/AssignPerson";
+import AssignPerson from "../People/AssignPerson";
 import AccessEditValues from "./AccessEditValues";
 import SearchAccess from "./SearchAccess";
 
@@ -60,8 +60,13 @@ export default class EditAccess extends React.Component<IProps, IState> {
       return null;
     }
     return (
-      <Modal isOpen={this.props.modal} toggle={this._closeModal} size="lg">
-        <ModalHeader>Edit Access</ModalHeader>
+      <Modal isOpen={this.props.modal} toggle={this._closeModal} size="lg" className="access-color">
+        <div className="modal-header row justify-content-between">
+          <h2>Edit Access</h2>
+          <Button color="link" onClick={this._closeModal}>
+          <i className="fas fa-times fa-lg"/>
+          </Button>
+        </div>
         <ModalBody>
           <div className="container-fluid">
             <form>
@@ -81,9 +86,6 @@ export default class EditAccess extends React.Component<IProps, IState> {
           >
             Update Access
           </Button>{" "}
-          <Button color="secondary" onClick={this._closeModal}>
-            Close
-          </Button>
         </ModalFooter>
       </Modal>
     );

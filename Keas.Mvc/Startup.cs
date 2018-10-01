@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AspNetCore.Security.CAS;
 using Keas.Core.Data;
 using Keas.Core.Domain;
+using Keas.Core.Models;
 using Keas.Mvc.Attributes;
 using Keas.Mvc.Handlers;
 using Keas.Mvc.Models;
@@ -16,6 +17,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -41,9 +44,18 @@ namespace Keas.Mvc
             services.AddSingleton<IIdentityService, IdentityService>();
             services.AddScoped<ISecurityService, SecurityService>();
 
-            
+
             // setup entity framework
-            services.AddDbContextPool<ApplicationDbContext>(o => o.UseSqlite("Data Source=keas.db"));
+            if (Configuration.GetSection("Dev:UseSql").Value == "Yes")
+            {
+                services.AddDbContextPool<ApplicationDbContext>(o => o.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            }
+            else
+            {
+                services.AddDbContextPool<ApplicationDbContext>(o => o.UseSqlite("Data Source=keas.db"));
+            }
+
+            
 
             // add openID connect auth backed by a cookie signin scheme
             services.AddAuthentication(options =>
@@ -103,6 +115,12 @@ namespace Keas.Mvc
             services.AddScoped<IAuthorizationHandler, VerifyRoleAccessHandler>();
             
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            //Added for Email Template View Engine
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
+            services.Configure<EmailSettings>(Configuration.GetSection("Email"));
+
             services.AddScoped<IHistoryService, HistoryService>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IEventService, EventService>();
@@ -125,7 +143,9 @@ namespace Keas.Mvc
             }
             else
             {
-                app.UseExceptionHandler("/Error/Index");
+                // TODO: don't use dev exception
+                app.UseDeveloperExceptionPage();
+                // app.UseExceptionHandler("/Error/Index");
                 
             }
             app.UseStatusCodePages("text/plain", "Status code page, status code: {0}");

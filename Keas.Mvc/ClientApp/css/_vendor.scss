@@ -1,3 +1,35 @@
+.col-sm-9, .col-sm-3 {
+  padding-left:0px;
+  padding-right:0px;
+}
+.card {
+  .col-md-4 {
+    padding-left:0px;
+  }
+}
+.ReactTable .rt-thead .rt-resizable-header, .table-actions {
+  font-weight:600;
+}
+.navbar-expand-md .navbar-nav .nav-link {
+  padding-left:1.5rem;
+  padding-right:1.5rem;
+}
+.btn.disabled, .btn:disabled {
+  opacity:.25;
+}
+.rbt-input-main, .rbt-input-hint {
+  height:42px;
+}
+.ReactTable .-pagination {
+  box-shadow:none !important;
+  border-top:1px solid $borders !important;
+}
+.rbt {
+  margin-right:1.6rem;
+  min-width:300px;
+  max-width:500px;
+  margin-bottom:1.6rem;
+}
 .container-fluid {
   padding: 0;
 }
@@ -77,4 +109,21 @@ input[type=number]::-webkit-outer-spin-button {
 
 th.list-actions {
     width: 10%;
+}
+.ReactTable .rt-thead.-header {
+  box-shadow:none !important;
+  border-bottom:1px solid $borders;
+}
+.modal-body {
+  padding:1.5rem;
+}
+.modal-header {
+  padding:1.5rem;
+  padding-bottom:0.6rem;
+}
+.modal-footer {
+  padding:1.5rem;
+}
+.modal-title{
+  font-size:2rem;
 }

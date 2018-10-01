@@ -80,10 +80,12 @@ export default class KeyContainer extends React.Component<IProps, IState> {
     const selectedId = parseInt(id, 10);
     const detailKey = this.state.keys.find(k => k.id === selectedId);
     return (
-      <div className="card">
-        <div className="card-body">
-        <h4 className="card-title"><i className="fas fa-key fa-xs"/> Keys</h4>
-          {this._renderTableOrList()}
+      <div className="card keys-color">
+        <div className="card-header-keys">
+          <div className="card-head"><h2><i className="fas fa-key fa-xs"/> Keys</h2></div>
+        </div>
+        <div className="card-content">
+        {this._renderTableOrList()}
           <AssignKey
             onCreate={this._createAndMaybeAssignKey}
             modal={activeAsset && (action === "create" || action === "assign")}
@@ -97,8 +99,8 @@ export default class KeyContainer extends React.Component<IProps, IState> {
             modal={activeAsset && action === "details" && !!detailKey}
             closeModal={this._closeModals}
           />
-          <EditKey 
-            onEdit={this._editKey} 
+          <EditKey
+            onEdit={this._editKey}
             closeModal={this._closeModals}
             modal={activeAsset && (action === "edit")}
             selectedKey={detailKey}
@@ -263,7 +265,7 @@ export default class KeyContainer extends React.Component<IProps, IState> {
     this.setState({
       ...this.state,
       keys: updateKey
-    }); 
+    });
 
     if(this.props.assetEdited)
     {

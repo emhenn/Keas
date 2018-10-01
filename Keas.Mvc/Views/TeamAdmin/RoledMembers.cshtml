@@ -3,12 +3,14 @@
 @{
         ViewData["Title"] = "Role Assigned Members ";
     }
-
-<h2>Members with roles in @Model.Team.Name</h2>
-
-<p>
-    <a asp-action="AddMemberRole">Add new team member role.</a>
-</p>
+    <div class="card">
+      <div class="card-head">
+        <div class="row justify-content-between">
+          <h2>Members with roles in @Model.Team.Name</h2>
+          <a class="btn btn-link" asp-action="AddMemberRole"><i class="fas fa-arrow-left fa-xs"/></i> Add new team member role.</a>
+        </div>
+      </div>
+      <div class="card-content">
 
 <table class="table">
     <thead>
@@ -20,7 +22,7 @@
                 Roles
             </th>
             <th>
-                
+
             </th>
         </tr>
     </thead>
@@ -41,3 +43,5 @@
 }
     </tbody>
 </table>
+</div>
+</div>

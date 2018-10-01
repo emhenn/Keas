@@ -13,7 +13,7 @@ import {
 import * as moment from "moment";
 import DatePicker from "react-datepicker";
 import { AppContext, IEquipment, IEquipmentAssignment, IEquipmentAttribute, IPerson, ISpace } from "../../Types";
-import AssignPerson from "../Biographical/AssignPerson";
+import AssignPerson from "../People/AssignPerson";
 import EquipmentEditValues from "./EquipmentEditValues";
 import SearchEquipment from "./SearchEquipment";
 
@@ -70,11 +70,16 @@ export default class AssignEquipment extends React.Component<IProps, IState> {
   public render() {
     return (
       <div>
-        <Button color="danger" onClick={this.props.onAddNew}>
-          Add Equipment
+        <Button color="link" onClick={this.props.onAddNew}>
+        <i className="fas fa-plus fa-sm" aria-hidden="true" />  Add Equipment
         </Button>
-        <Modal isOpen={this.props.modal} toggle={this._closeModal} size="lg">
-          <ModalHeader>Assign Equipment</ModalHeader>
+        <Modal isOpen={this.props.modal} toggle={this._closeModal} size="lg" className="equipment-color">
+          <div className="modal-header row justify-content-between">
+            <h2>Assign Equipment</h2>
+            <Button color="link" onClick={this._closeModal}>
+            <i className="fas fa-times fa-lg"/>
+            </Button>
+          </div>
           <ModalBody>
             <div className="container-fluid">
               <form>
@@ -142,9 +147,8 @@ export default class AssignEquipment extends React.Component<IProps, IState> {
             >
               Go!
             </Button>{" "}
-            <Button color="secondary" onClick={this._closeModal}>
-              Close
-            </Button>
+
+
           </ModalFooter>
         </Modal>
       </div>
@@ -235,7 +239,7 @@ export default class AssignEquipment extends React.Component<IProps, IState> {
       valid = false;
     } else if (moment().isSameOrAfter(this.state.date)) {
         valid = false;
-    } 
+    }
     this.setState({ validState: valid });
   };
 
