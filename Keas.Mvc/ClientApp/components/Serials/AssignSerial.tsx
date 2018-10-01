@@ -10,8 +10,7 @@ import {
     ModalHeader,
 } from "reactstrap";
 import { AppContext, IPerson, ISerial } from "../../Types";
-import AssignPerson from "../Biographical/AssignPerson";
-import HistoryContainer from "../History/HistoryContainer";
+import AssignPerson from "../People/AssignPerson";
 import SerialEditValues from "./SerialEditValues";
 
 import "react-datepicker/dist/react-datepicker.css";
