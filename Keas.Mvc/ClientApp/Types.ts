@@ -24,6 +24,9 @@ export interface IRouteProps {
   personAction: string;
   spaceId: string;
   spaceAction: string;
+  serialAsset: string;
+  serialAction: string;
+  serialId: string;
 }
 
 export interface IUser {

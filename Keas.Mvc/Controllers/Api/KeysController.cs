@@ -31,13 +31,14 @@ namespace Keas.Mvc.Controllers.Api
         public async Task<IActionResult> Search(string q)
         {
             var comparison = StringComparison.OrdinalIgnoreCase;
-            var keys = await _context.Serials
-                .Where(x => x.Key.Team.Name == Team && x.Key.Active && x.Active && x.Assignment == null
-                    && (x.Key.Name.IndexOf(q, comparison) >= 0 || x.Key.Number.IndexOf(q, comparison) >= 0)) // case-insensitive version of .Contains
-                .Include(x => x.Key)
-                .ThenInclude(key => key.KeyXSpaces)
+            var keys = await _context.Keys
+                .Where(x => x.Team.Name == Team && x.Active 
+                    && (x.Name.IndexOf(q, comparison) >= 0 || x.Number.IndexOf(q, comparison) >= 0)) // case-insensitive version of .Contains
+                .Include(key => key.KeyXSpaces)
                 .ThenInclude(keyXSpaces => keyXSpaces.Space)
-                .Select(x=> x.Key)
+                .Include(x => x.Serials)
+                .ThenInclude(x => x.Assignment)
+                .ThenInclude(x => x.Person)
                 .AsNoTracking().ToListAsync();
             return Json(keys);
         }

@@ -58,6 +58,13 @@ export default class SerialContainer extends React.Component<IProps, IState> {
         this.setState({ serials, loading: false });
     }
 
+    // make sure we change the serial we are updating if the parent changes selected serial
+    public componentWillReceiveProps(nextProps) {
+        if (nextProps.selectedKey !== this.props.selectedKey) {
+        this.setState({ serials: nextProps.selectedKey.serials });
+        }
+    }
+
     public render() {
         if (!this.props.selectedKey && !this.props.space && !this.props.person)
         {
@@ -67,9 +74,9 @@ export default class SerialContainer extends React.Component<IProps, IState> {
         {
             return (<div>Loading Serials...</div>);
         }
-        const { action, assetType, id } = this.context.router.route.match.params;
-        const activeAsset = assetType === "serials";
-        const selectedId = parseInt(id, 10);
+        const { serialAction, serialAsset, serialId } = this.context.router.route.match.params;
+        const activeAsset = serialAsset === "serials";
+        const selectedId = parseInt(serialId, 10);
         const selectedSerial = this.state.serials.find(k => k.id === selectedId);
 
         return (
@@ -89,18 +96,18 @@ export default class SerialContainer extends React.Component<IProps, IState> {
                             </Button>
                             <SerialDetails
                                 closeModal={this._closeModals}
-                                modal={activeAsset && action === "details"}
+                                modal={activeAsset && serialAction === "details"}
                                 selectedSerial={selectedSerial}
                                 />
                             <EditSerial
                                 closeModal={this._closeModals}
-                                modal={activeAsset && action === "edit"}
+                                modal={activeAsset && serialAction === "edit"}
                                 selectedSerial={selectedSerial}
                                 onEdit={this._editSerial}
                                 />
                             <AssignSerial
                                 closeModal={this._closeModals}
-                                modal={activeAsset && (action === "assign" || action ==="create")}
+                                modal={activeAsset && (serialAction === "assign" || serialAction ==="create")}
                                 person={this.props.person}
                                 selectedSerial={selectedSerial}
                                 onCreate={this._createAndMaybeAssignSerial}
@@ -108,7 +115,7 @@ export default class SerialContainer extends React.Component<IProps, IState> {
                             <RevokeSerial
                                 closeModal={this._closeModals}
                                 revokeSerial={this._revokeSerial}
-                                modal={activeAsset && action === "revoke"}
+                                modal={activeAsset && serialAction === "revoke"}
                                 selectedSerial={selectedSerial} />
                 </div>
             </div>
@@ -270,14 +277,7 @@ export default class SerialContainer extends React.Component<IProps, IState> {
     }
 
     private _closeModals = () => {
-        if(!!this.props.person && !this.props.space)
-        {
-            this.context.router.history.push(`${this._getBaseUrl()}`);
-        }
-        else if(!this.props.person && !!this.props.space)
-        {
-            this.context.router.history.push(`${this._getBaseUrl()}`);
-        }
+        this.context.router.history.push(`${this._getBaseUrl()}`);
     };
     
     private _getBaseUrl = () => {
@@ -293,7 +293,7 @@ export default class SerialContainer extends React.Component<IProps, IState> {
         }
         if(!!this.props.selectedKey)
         {
-            return `/${this.context.team.name}/serials/details/${this.props.selectedKey.id}`;
+            return `/${this.context.team.name}/keys/details/${this.props.selectedKey.id}`;
         }
     };
 }

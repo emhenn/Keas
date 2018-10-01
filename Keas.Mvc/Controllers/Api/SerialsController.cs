@@ -81,41 +81,41 @@ namespace Keas.Mvc.Controllers.Api
     //         return Json(serial);
     //     }
 
-    //     public async Task<IActionResult> Assign(int serialId, int personId, string date)
-    //     {
-    //         // TODO make sure user has permission
-    //         if (ModelState.IsValid)
-    //         {
-    //             var serial = await _context.Serials.Where(w => w.Team.Name == Team).Include(w => w.Space)
-    //                 .SingleAsync(w => w.Id == serialId);
-    //             serial.Assignment = new SerialAssignment{PersonId = personId, ExpiresAt = DateTime.Parse(date)};
-    //             serial.Assignment.Person =
-    //                 await _context.People.Include(p => p.User).Include(p=> p.Team).SingleAsync(p => p.Id == personId);
+        public async Task<IActionResult> Assign(int serialId, int personId, string date)
+        {
+            // TODO make sure user has permission
+            if (ModelState.IsValid)
+            {
+                var serial = await _context.Serials.Where(s => s.Key.Team.Name == Team)
+                    .Include(x => x.Key).ThenInclude(x => x.KeyXSpaces).ThenInclude(x => x.Space)
+                    .SingleAsync(s => s.Id == serialId);
 
-    //             if (serial.Team.Name != Team)
-    //             {
-    //                 Message = "Serial is not part of this team!";
-    //                 return BadRequest(serial);
-    //             }
-    //             if (serial.Assignment.Person.Team.Name != Team)
-    //             {
-    //                 Message = "User is not part of this team!";
-    //                 return BadRequest(serial);
-    //             }
-    //             if (serial.TeamId != serial.Assignment.Person.TeamId)
-    //             {
-    //                 Message = "Serial team did not match person's team!";
-    //                 return BadRequest(serial);
-    //             }
+                var key = serial.Key;
+                serial.Assignment = new KeyAssignment {PersonId = personId, ExpiresAt = DateTime.Parse(date)};
+                serial.Assignment.Person =
+                    await _context.People.Include(p => p.User).Include(p=> p.Team).SingleAsync(p => p.Id == personId);
 
-    //             _context.SerialAssignments.Add(serial.Assignment);
+                if (serial.Assignment.Person.Team.Name != Team)
+                {
+                    Message = "User is not part of this team!";
+                    return BadRequest(serial);
+                }
+                if (serial.Key.Team.Id != serial.Assignment.Person.TeamId)
+                {
+                    Message = "Serial team did not match person's team!";
+                    return BadRequest(serial);
+                }
+                // null out key so it doesn't try to add it 
+                serial.Key = null;
 
-    //             await _context.SaveChangesAsync();
-    //             await _eventService.TrackAssignSerial(serial);
-    //             return Json(serial);
-    //         }
-    //         return BadRequest(ModelState);
-    //     }
+                _context.KeyAssignments.Add(serial.Assignment);
+
+                await _context.SaveChangesAsync();
+                await _eventService.TrackAssignKey(serial);
+                return Json(serial);
+            }
+            return BadRequest(ModelState);
+        }
 
         public async Task<IActionResult> Revoke([FromBody] Serial serial)
         {
