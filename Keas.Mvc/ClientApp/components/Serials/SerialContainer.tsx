@@ -86,6 +86,7 @@ export default class SerialContainer extends React.Component<IProps, IState> {
                         {this.state.serials.length > 0 ? 
                             <SerialList 
                                     serials={this.state.serials} 
+                                    selectedKey={this.props.selectedKey}
                                     showDetails={this._openDetailsModal}
                                     onEdit={this._openEditModal}
                                     onAdd={this._openAssignModal} 
@@ -107,6 +108,7 @@ export default class SerialContainer extends React.Component<IProps, IState> {
                                 />
                             <AssignSerial
                                 closeModal={this._closeModals}
+                                selectedKey={this.props.selectedKey}
                                 modal={activeAsset && (serialAction === "assign" || serialAction ==="create")}
                                 person={this.props.person}
                                 selectedSerial={selectedSerial}
@@ -129,7 +131,9 @@ export default class SerialContainer extends React.Component<IProps, IState> {
       ) => {
         let created = false;
         let assigned = false;
-        
+        // keep key around 
+        const key = serial.key;
+        serial.key = null;
         // call API to create a serial, then assign it if there is a person to assign to
         // if we are creating a new serial
         if (serial.id === 0) {
@@ -154,6 +158,8 @@ export default class SerialContainer extends React.Component<IProps, IState> {
           assigned = true;
         }
     
+        // add back after awaits
+        serial.key = key;
         const index = this.state.serials.findIndex(x => x.id === serial.id);
         if (index !== -1) {
           // update already existing entry in serial

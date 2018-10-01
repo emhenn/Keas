@@ -1,10 +1,11 @@
 import * as React from "react";
 import SerialListItem from "./SerialListItem";
 
-import { ISerial } from "../../Types";
+import { IKey, ISerial } from "../../Types";
 
 interface IProps {
     serials: ISerial[];
+    selectedKey?: IKey;
     onRevoke?: (serial: ISerial) => void;
     onAdd?: (serial: ISerial) => void;
     onCreate?: () => void;
@@ -17,6 +18,7 @@ export default class SerialList extends React.Component<IProps, {}> {
       const serials = this.props.serials.map(x => (
           <SerialListItem
               key={x.id.toString()}
+              selectedKey={this.props.selectedKey}
               serialEntity={x}
               onRevoke={this.props.onRevoke}
               onAdd={this.props.onAdd}

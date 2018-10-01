@@ -9,17 +9,18 @@ import {
     ModalFooter,
     ModalHeader,
 } from "reactstrap";
-import { AppContext, IPerson, ISerial } from "../../Types";
+import { AppContext, IKey, IPerson, ISerial } from "../../Types";
 import AssignPerson from "../People/AssignPerson";
 import SerialEditValues from "./SerialEditValues";
 
 import "react-datepicker/dist/react-datepicker.css";
 
 interface IProps {
-  onCreate: (person: IPerson, serial: ISerial, date: any) => void;
+  closeModal: () => void;
+  selectedKey?: IKey;
   modal: boolean;
   onAddNew: () => void;
-  closeModal: () => void;
+  onCreate: (person: IPerson, serial: ISerial, date: any) => void;
   selectedSerial: ISerial;
   person?: IPerson;
 }
@@ -45,7 +46,14 @@ export default class AssignSerial extends React.Component<IProps, IState> {
         date: moment().add(3, "y"),
         error: "",
         person: null,
-        serial: this.props.selectedSerial,
+        serial: !!this.props.selectedSerial ? this.props.selectedSerial : 
+          {
+            assignment: null,
+            id: 0,
+            key: this.props.selectedKey,
+            keyId: this.props.selectedKey.id,
+            number: "",
+          },
         validState: false,
     };
 }
@@ -81,8 +89,7 @@ export default class AssignSerial extends React.Component<IProps, IState> {
                 <SerialEditValues
                   selectedSerial={this.state.serial}
                   changeProperty={this._changeProperty}
-                  creating={true}
-                  disableEditing={false}
+                  disableEditing={!!this.props.selectedSerial}
                 />
 
                 {(!!this.state.person || !!this.props.person) && (
@@ -125,7 +132,14 @@ export default class AssignSerial extends React.Component<IProps, IState> {
   // clear everything out on close
   private _closeModal = () => {
     this.setState({
-      serial: null,
+      serial:
+      {
+        assignment: null,
+        id: 0,
+        key: this.props.selectedKey,
+        keyId: this.props.selectedKey.id,
+        number: "",
+      },
       error: "",
       person: null,
       validState: false
@@ -152,11 +166,11 @@ export default class AssignSerial extends React.Component<IProps, IState> {
     // if this serial is not already assigned
 
     // TODO: more validation of name
-    if (serial.name.length > 64) {
+    if (serial.number.length > 64) {
       this.setState(
         {
           serial: null,
-          error: "The serial name you have chosen is too long",
+          error: "The serial number you have chosen is too long",
         },
         this._validateState
       );

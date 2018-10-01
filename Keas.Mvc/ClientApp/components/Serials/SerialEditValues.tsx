@@ -6,7 +6,6 @@ interface IProps {
     changeProperty?: (property: string, value: any) => void;
     disableEditing: boolean;
     selectedSerial: ISerial;
-    creating?: boolean;
 }
 
 export default class SerialEditValues extends React.Component<IProps, {}> {
@@ -39,7 +38,6 @@ export default class SerialEditValues extends React.Component<IProps, {}> {
                             />
                     </div>
                 </div> }
-                {!this.props.creating &&
                 <div className="form-group">
                     <label>Serial Number</label>
                     <input type="text"
@@ -48,7 +46,7 @@ export default class SerialEditValues extends React.Component<IProps, {}> {
                         value={this.props.selectedSerial.number ? this.props.selectedSerial.number : ""}
                         onChange={(e) => this.props.changeProperty("number", e.target.value)}
                     />
-                </div>}
+                </div>
                 {this.props.selectedSerial.assignment != null &&
                 <div>
                     <div className="form-group">

@@ -63,23 +63,18 @@ namespace Keas.Mvc.Controllers.Api
             return Json(serialAssignments);
         }
 
-    //     public async Task<IActionResult> Create([FromBody] Serial serial)
-    //     {
-    //         // TODO Make sure user has permission; Protect from overpost
-    //         if (ModelState.IsValid)
-    //         {
-    //             if (serial.Space != null)
-    //             {
-    //                 var space = await _context.Spaces.SingleAsync(s => s.RoomKey == serial.Space.RoomKey);
-    //                 serial.Space = space;
-    //             }
-    //             _context.Serials.Add(serial);
-    //             await _eventService.TrackCreateSerial(serial);
-    //             await _context.SaveChangesAsync();
-    //         }
+        public async Task<IActionResult> Create([FromBody] Serial serial)
+        {
+            // TODO Make sure user has permission; Protect from overpost
+            if (ModelState.IsValid)
+            {
+                _context.Serials.Add(serial);
+                // await _eventService.TrackCreateSerial(serial);
+                await _context.SaveChangesAsync();
+            }
 
-    //         return Json(serial);
-    //     }
+            return Json(serial);
+        }
 
         public async Task<IActionResult> Assign(int serialId, int personId, string date)
         {

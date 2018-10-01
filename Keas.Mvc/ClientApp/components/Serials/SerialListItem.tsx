@@ -1,10 +1,11 @@
 import * as React from "react";
 
-import { ISerial } from "../../Types";
+import { IKey, ISerial } from "../../Types";
 import ListActionsDropdown from "../ListActionsDropdown";
 
 interface IProps {
     serialEntity: ISerial;
+    selectedKey?: IKey;
     onRevoke?: (serial: ISerial) => void;
     onAdd?: (serial: ISerial) => void;
     showDetails?: (serial: ISerial) => void;
@@ -15,8 +16,9 @@ interface IProps {
 export default class EquipmentListItem extends React.Component<IProps, {}> {
     public render() {
         const hasAssignment = !!this.props.serialEntity.assignment;
-        let spaceNamesArray = !!this.props.serialEntity.key ? 
-          this.props.serialEntity.key.keyXSpaces.map(x => x.space.roomNumber + " " + x.space.bldgName) : [];
+        const key = this.props.serialEntity.key ? this.props.serialEntity.key : this.props.selectedKey;
+        let spaceNamesArray = !!key ? 
+          key.keyXSpaces.map(x => x.space.roomNumber + " " + x.space.bldgName) : [];
         let spaceNames = "";
         if(spaceNamesArray.length > 2)
         {
@@ -29,7 +31,7 @@ export default class EquipmentListItem extends React.Component<IProps, {}> {
         }
         return (
           <tr>
-            <td>{this.props.serialEntity.key ? this.props.serialEntity.key.name : ""}</td>
+            <td>{key.name ? key.name : ""}</td>
             <td>{spaceNames}</td>
             <td>{this.props.serialEntity.number}</td>
             <td>{hasAssignment ? this.props.serialEntity.assignment.person.user.name : ""}</td>
