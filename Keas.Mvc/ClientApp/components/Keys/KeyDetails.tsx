@@ -9,6 +9,7 @@ import {
 } from "reactstrap";
 import { IKey } from "../../Types";
 import HistoryContainer from "../History/HistoryContainer";
+import SerialContainer from "../Serials/SerialContainer";
 import KeyEditValues from "./KeyEditValues";
 
 
@@ -33,6 +34,7 @@ export default class KeyDetails extends React.Component<IProps, {}> {
                     <ModalHeader>Details for {key.name}</ModalHeader>
                     <ModalBody>
                         <KeyEditValues selectedKey={key} disableEditing={true} />
+                        <SerialContainer selectedKey={key}/>
                         <HistoryContainer controller="keys" id={key.id} />
                     </ModalBody>
                     <ModalFooter>

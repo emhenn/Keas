@@ -14,8 +14,7 @@ interface IProps {
     assetEdited?: (type: string, spaceId: number, personId: number) => void; 
     space?: ISpace;
     person?: IPerson;
-    key?: IKey;
-    tags: string[];
+    selectedKey?: IKey;
 }
 
 interface IState {
@@ -45,12 +44,13 @@ export default class SerialContainer extends React.Component<IProps, IState> {
     public async componentDidMount() {
         this.setState({ loading: true });
         let serials = [];
-        if(!this.props.space && !!this.props.person)
+        if(!!this.props.selectedKey)
         {
+            serials = this.props.selectedKey.serials;
+        } else if(!this.props.space && !!this.props.person){
             serials = 
                 await this.context.fetch(`/api/${this.context.team.name}/serials/listAssigned?personId=${this.props.person.id}`);
-        }
-        if(!!this.props.space && !this.props.person)
+        } else if(!!this.props.space && !this.props.person)
         {
             serials = 
                 await this.context.fetch(`/api/${this.context.team.name}/serials/getSerialsInSpace?spaceId=${this.props.space.id}`);
@@ -59,7 +59,7 @@ export default class SerialContainer extends React.Component<IProps, IState> {
     }
 
     public render() {
-        if (!this.props.space && !this.props.person)
+        if (!this.props.selectedKey && !this.props.space && !this.props.person)
         {
             return null;
         }
@@ -94,7 +94,6 @@ export default class SerialContainer extends React.Component<IProps, IState> {
                                 />
                             <EditSerial
                                 closeModal={this._closeModals}
-                                tags={this.props.tags}
                                 modal={activeAsset && action === "edit"}
                                 selectedSerial={selectedSerial}
                                 onEdit={this._editSerial}
@@ -104,7 +103,6 @@ export default class SerialContainer extends React.Component<IProps, IState> {
                                 modal={activeAsset && (action === "assign" || action ==="create")}
                                 person={this.props.person}
                                 selectedSerial={selectedSerial}
-                                tags={this.props.tags}
                                 onCreate={this._createAndMaybeAssignSerial}
                                 onAddNew={this._openCreateModal} />
                             <RevokeSerial
@@ -283,8 +281,19 @@ export default class SerialContainer extends React.Component<IProps, IState> {
     };
     
     private _getBaseUrl = () => {
-        return this.props.person
-          ? `/${this.context.team.name}/people/details/${this.props.person.id}`
-          : `/${this.context.team.name}/spaces/details/${this.props.space.id}`;
-      };
+        if(!!this.props.person)
+        {
+            return `/${this.context.team.name}/people/details/${this.props.person.id}`;
+
+        }
+        if(!!this.props.space)
+        {
+            return `/${this.context.team.name}/spaces/details/${this.props.space.id}`;
+
+        }
+        if(!!this.props.selectedKey)
+        {
+            return `/${this.context.team.name}/serials/details/${this.props.selectedKey.id}`;
+        }
+    };
 }

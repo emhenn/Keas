@@ -18,6 +18,7 @@ import KeyEditValues from "./KeyEditValues";
 import SearchKey from "./SearchKeys";
 
 import "react-datepicker/dist/react-datepicker.css";
+import SerialContainer from "../Serials/SerialContainer";
 
 interface IProps {
   onCreate: (person: IPerson, key: IKey, date: any) => void;
@@ -108,6 +109,8 @@ export default class AssignKey extends React.Component<IProps, IState> {
                       creating={true}
                     />
                   )}
+
+                  <SerialContainer selectedKey={this.state.key}/>
 
                 {(!!this.state.person || !!this.props.person) && (
                   <div className="form-group">

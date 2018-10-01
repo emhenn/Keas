@@ -12,7 +12,6 @@ import {
 import { AppContext, IPerson, ISerial } from "../../Types";
 import AssignPerson from "../Biographical/AssignPerson";
 import HistoryContainer from "../History/HistoryContainer";
-import SearchSerials from "./SearchSerials";
 import SerialEditValues from "./SerialEditValues";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -24,7 +23,6 @@ interface IProps {
   closeModal: () => void;
   selectedSerial: ISerial;
   person?: IPerson;
-  tags: string[];
 }
 
 interface IState {
@@ -81,30 +79,12 @@ export default class AssignSerial extends React.Component<IProps, IState> {
                     onSelect={this._onSelectPerson}
                   />
                 </div>
-                <div className="form-group">
-                  <label>Pick a serial to assign</label>
-                  <SearchSerials
-                    selectedSerial={this.state.serial}
-                    onSelect={this._onSelected}
-                    onDeselect={this._onDeselected}
-                    space={this.props.space}
-                  />
-                  </div>
-                {(!this.state.serial || !this.state.serial.teamId) && // if we are creating a new serial, edit properties
-                    <SerialEditValues
-                      tags={this.props.tags}
-                      selectedSerial={this.state.serial}
-                      changeProperty={this._changeProperty}
-                      creating={true}
-                      disableEditing={false}
-                    />
-                  }
-                {!!this.state.serial && !!this.state.serial.teamId &&
-                    <SerialEditValues
-                      selectedSerial={this.state.serial}
-                      disableEditing={true}
-                      />
-                  }
+                <SerialEditValues
+                  selectedSerial={this.state.serial}
+                  changeProperty={this._changeProperty}
+                  creating={true}
+                  disableEditing={false}
+                />
 
                 {(!!this.state.person || !!this.props.person) && (
                   <div className="form-group">

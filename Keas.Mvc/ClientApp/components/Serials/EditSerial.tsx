@@ -10,8 +10,6 @@ import {
   ModalHeader
 } from "reactstrap";
 
-import * as moment from "moment";
-import DatePicker from "react-datepicker";
 import { AppContext, ISerial } from "../../Types";
 import SerialEditValues from "./SerialEditValues";
 
@@ -22,7 +20,6 @@ interface IProps {
   modal: boolean;
   closeModal: () => void;
   selectedSerial: ISerial;
-  tags: string[];
 }
 
 interface IState {
@@ -40,8 +37,8 @@ export default class EditSerial extends React.Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.state = {
-      serial: this.props.selectedSerial,
       error: "",
+      serial: this.props.selectedSerial,
       validState: false
     };
   }
@@ -68,7 +65,6 @@ export default class EditSerial extends React.Component<IProps, IState> {
                     selectedSerial={this.state.serial}
                     changeProperty={this._changeProperty}
                     disableEditing={false}
-                    tags={this.props.tags}
                   />
             </form>
           </div>
@@ -101,8 +97,8 @@ export default class EditSerial extends React.Component<IProps, IState> {
   // clear everything out on close
   private _closeModal = () => {
     this.setState({
-      serial: null,
       error: "",
+      serial: null,
       validState: false
     });
     this.props.closeModal();

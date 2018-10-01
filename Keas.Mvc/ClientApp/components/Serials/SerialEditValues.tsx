@@ -4,7 +4,6 @@ import { ISerial } from "../../Types";
 
 interface IProps {
     changeProperty?: (property: string, value: any) => void;
-    tags?: string[];
     disableEditing: boolean;
     selectedSerial: ISerial;
     creating?: boolean;

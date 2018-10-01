@@ -2,7 +2,7 @@
 import * as React from "react";
 import { AsyncTypeahead, Highlighter } from "react-bootstrap-typeahead";
 
-import { IKey, AppContext } from "../../Types";
+import { AppContext, IKey } from "../../Types";
 
 interface IProps {
     selectedKey?: IKey;
@@ -47,23 +47,15 @@ export default class SearchKeys extends React.Component<IProps, IState> {
                 <AsyncTypeahead
                     isLoading={this.state.isSearchLoading}
                     minLength={3}
-                    placeholder="Search for key by name or by serial number"
+                    placeholder="Search for key by name"
                     labelKey="name"
                     filterBy={() => true} // don't filter on top of our search
                     allowNew={true}
                     renderMenuItemChildren={(option, props, index) => (
                         <div>
-                            <div>
-                                <Highlighter key="name" search={props.text}>
-                                    {option.name}
-                                </Highlighter>
-                            </div>
-                            <div>
-                                <small>
-                                    Serial Number:
-                                    <Highlighter key="serialNumber" search={props.text}>{option.serialNumber}</Highlighter>
-                                </small>
-                            </div>
+                            <Highlighter key="name" search={props.text}>
+                                {option.name}
+                            </Highlighter>
                         </div>
                     )}
                     onSearch={async query => {
