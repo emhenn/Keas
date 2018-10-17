@@ -1,15 +1,15 @@
-﻿import PropTypes from "prop-types";
+﻿import { IAccess } from "ClientApp/Types";
+import PropTypes from "prop-types";
 import * as React from "react";
 import {
     Button,
+    ListGroup,
+    ListGroupItem,
     Modal,
     ModalBody,
     ModalFooter,
-    ModalHeader,
-    ListGroup,
-    ListGroupItem
+    ModalHeader
 } from "reactstrap";
-import { IAccess } from "ClientApp/Types";
 import AccessEditValues from "./AccessEditValues";
 
 
@@ -23,8 +23,10 @@ interface IProps {
 export default class AccessDetails extends React.Component<IProps, {}> {
 
     public render() {
-        if (this.props.selectedAccess == null)
+        if (this.props.selectedAccess == null) {
             return null;
+        }
+            
         const access = this.props.selectedAccess;
         return (
             <div>
