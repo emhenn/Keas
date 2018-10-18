@@ -1,4 +1,4 @@
-﻿import { IAccess } from "ClientApp/Types";
+﻿import { IAccess, IAccessAssignment } from "ClientApp/Types";
 import PropTypes from "prop-types";
 import * as React from "react";
 import {
@@ -16,6 +16,7 @@ import AccessEditValues from "./AccessEditValues";
 interface IProps {
     modal: boolean;
     closeModal: () => void;
+    onRevoke: (accessAssignment: IAccessAssignment) => void;
     selectedAccess: IAccess;
 }
 
@@ -39,7 +40,7 @@ export default class AccessDetails extends React.Component<IProps, {}> {
                   </div>
 
                     <ModalBody>
-                        <AccessEditValues selectedAccess={access} disableEditing={true} />
+                        <AccessEditValues onRevoke={this.onRevoke} selectedAccess={access} disableEditing={true} />
                     </ModalBody>
                 </Modal>
             </div>
